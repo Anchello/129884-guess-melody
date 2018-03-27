@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Anna Popova](https://up.htmlacademy.ru/ecmascript/4/user/129884).
-* Наставник: `Неизвестно`.
+* Наставник: [Nick Plekhanov](https://htmlacademy.ru/profile/id635053).
 
 ---
 
