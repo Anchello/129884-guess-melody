@@ -3,6 +3,10 @@ const templateContent = `content` in template ? template.content : template;
 const templateList = templateContent.cloneNode(true).querySelectorAll(`.main`);
 const templatesArr = Array.from(templateList);
 const mainSection = document.querySelector(`section.main`);
+const KeyCode = {
+  ARROW_LEFT: 37,
+  ARROW_RIGHT: 39
+};
 let indexScreen = 0;
 
 /**
@@ -20,14 +24,16 @@ function showScreen(index) {
  * @param {KeyboardEvent} evt
  */
 function onKeyDown(evt) {
-  if (evt.altKey && evt.key === `ArrowRight` && indexScreen < templatesArr.length - 1) {
-    evt.preventDefault();
+  if (evt.altKey && evt.keyCode === KeyCode.ARROW_RIGHT && indexScreen < templatesArr.length - 1) {
     indexScreen++;
-  } else if (evt.altKey && evt.key === `ArrowLeft` && indexScreen > 0) {
-    evt.preventDefault();
+
+  } else if (evt.altKey && evt.keyCode === KeyCode.ARROW_LEFT && indexScreen > 0) {
     indexScreen--;
+  } else {
+    return;
   }
 
+  evt.preventDefault();
   showScreen(indexScreen);
 }
 
