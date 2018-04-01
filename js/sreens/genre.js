@@ -1,16 +1,15 @@
-import getElementFromTemplate from './utils/get-element-from-template.js';
-import createElement from './utils/create-element.js';
-import screenResultWin from './screen-result-win.js';
-import screenResultTimeOver from './screen-result-time-over.js';
-import screenResultFail from './screen-result-fail.js';
+import {getElementFromTemplate, showScreen} from '../utils/utils';
+import screenResultWin from './win.js';
+import screenResultTimeOver from './time-over.js';
+import screenResultFail from './fail.js';
 
-const screenLevelGenre = getElementFromTemplate(
-    `<section class="main main--level main--level-genre">
+const screenLevelGenre = getElementFromTemplate(`
+  <section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
         class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+        style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
 
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
         <span class="timer-value-mins">05</span><!--
@@ -86,32 +85,36 @@ const screenLevelGenre = getElementFromTemplate(
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </div>
-  </section>`);
-const buttonsAnswerLists = screenLevelGenre.querySelectorAll(`.genre-answer`);
-const buttonsAnswer = Array.from(buttonsAnswerLists);
+  </section>
+`);
+const buttonsAnswerWrapper = screenLevelGenre.querySelector(`.genre`);
 const buttonSubmitAnswer = screenLevelGenre.querySelector(`.genre-answer-send`);
+const checkboxesList = buttonsAnswerWrapper.querySelectorAll(`[name="answer"]`);
+const checkboxesAnswer = Array.from(checkboxesList);
 const results = [screenResultWin, screenResultTimeOver, screenResultFail];
 const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
+const getStateCheckbox = (checkbox) => checkbox.checked;
+const getCountCheckedAnswer = () => {
+  let count = 0;
+  checkboxesAnswer.forEach((checkbox) => {
+    if (getStateCheckbox(checkbox)) {
+      count++;
+    }
+  });
+  return count;
+};
 
 buttonSubmitAnswer.disabled = true;
 
-buttonsAnswer.forEach((button) => {
-  button.onclick = () => {
-    buttonSubmitAnswer.disabled = false;
-  };
+buttonsAnswerWrapper.addEventListener(`click`, (evt, countAnswer = getCountCheckedAnswer()) => {
+  if (evt.target.name === `answer`) {
+    buttonSubmitAnswer.disabled = !countAnswer;
+  }
 });
 
-buttonSubmitAnswer.onclick = (evt, result = getRandomResult()) => {
+buttonSubmitAnswer.addEventListener(`click`, (evt, result = getRandomResult()) => {
   evt.preventDefault();
-  createElement(result);
-};
-
-results.forEach((result) => {
-  const buttonReplay = result.querySelector(`.main-replay`);
-
-  buttonReplay.onclick = () => {
-    location.reload();
-  };
+  showScreen(result);
 });
 
 export default screenLevelGenre;

@@ -1,4 +1,4 @@
-import screenStart from './screen-start.js';
-import createElement from './utils/create-element.js';
+import screenStart from './sreens/start';
+import {showScreen} from './utils/utils';
 
-createElement(screenStart);
+showScreen(screenStart);

@@ -1,14 +1,13 @@
-import getElementFromTemplate from './utils/get-element-from-template.js';
-import screenLevelGenre from './screen-level-genre.js';
-import createElement from './utils/create-element.js';
+import {getElementFromTemplate, showScreen} from '../utils/utils';
+import screenLevelGenre from './genre.js';
 
-const screenLevelArtist = getElementFromTemplate(
-    `<section class="main main--level main--level-artist">
+const screenLevelArtist = getElementFromTemplate(`
+  <section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
         class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+        style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
 
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
         <span class="timer-value-mins">05</span><!--
@@ -61,16 +60,17 @@ const screenLevelArtist = getElementFromTemplate(
         </div>
       </form>
     </div>
-  </section>`);
+  </section>
+`);
 
-const buttonsAnswerList = screenLevelArtist.querySelectorAll(`.main-answer-wrapper`);
-const buttonsAnswer = Array.from(buttonsAnswerList);
+const buttonsAnswerWrapper = screenLevelArtist.querySelector(`.main-list`);
 
-buttonsAnswer.forEach((button) => {
-  button.onclick = (evt) => {
-    evt.preventDefault();
-    createElement(screenLevelGenre);
-  };
+buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
+  const target = evt.target;
+  if (target.classList.contains(`main-answer`) ||
+    target.parentElement.classList.contains(`main-answer`)) {
+    showScreen(screenLevelGenre);
+  }
 });
 
 export default screenLevelArtist;
