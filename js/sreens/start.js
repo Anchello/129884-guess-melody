@@ -1,4 +1,4 @@
-import {getElementFromTemplate, showScreen} from './../utils/utils';
+import {getElementFromTemplate, showScreenElement} from '../utils';
 import screenLevelArtist from './artist';
 
 const screenStart = getElementFromTemplate(`
@@ -15,9 +15,6 @@ const screenStart = getElementFromTemplate(`
 `);
 const buttonPlay = screenStart.querySelector(`.main-play`);
 
-buttonPlay.addEventListener(`click`, (evt) => {
-  evt.preventDefault();
-  showScreen(screenLevelArtist);
-});
+buttonPlay.addEventListener(`click`, () => showScreenElement(screenLevelArtist));
 
 export default screenStart;

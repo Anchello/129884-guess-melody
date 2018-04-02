@@ -1,7 +1,7 @@
-import {getElementFromTemplate, showScreen} from '../utils/utils';
-import screenResultWin from './win.js';
-import screenResultTimeOver from './time-over.js';
-import screenResultFail from './fail.js';
+import {getElementFromTemplate, showScreenElement} from '../utils';
+import screenResultWin from './win';
+import screenResultTimeOver from './time-over';
+import screenResultFail from './fail';
 
 const screenLevelGenre = getElementFromTemplate(`
   <section class="main main--level main--level-genre">
@@ -30,7 +30,7 @@ const screenLevelGenre = getElementFromTemplate(`
           <div class="player-wrapper">
             <div class="player">
               <audio></audio>
-              <button class="player-control player-control--pause"></button>
+              <button class="player-control player-control--pause" type="button"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -44,7 +44,7 @@ const screenLevelGenre = getElementFromTemplate(`
           <div class="player-wrapper">
             <div class="player">
               <audio></audio>
-              <button class="player-control player-control--play"></button>
+              <button class="player-control player-control--play" type="button"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -58,7 +58,7 @@ const screenLevelGenre = getElementFromTemplate(`
           <div class="player-wrapper">
             <div class="player">
               <audio></audio>
-              <button class="player-control player-control--play"></button>
+              <button class="player-control player-control--play" type="button"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -72,7 +72,7 @@ const screenLevelGenre = getElementFromTemplate(`
           <div class="player-wrapper">
             <div class="player">
               <audio></audio>
-              <button class="player-control player-control--play"></button>
+              <button class="player-control player-control--play" type="button"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -89,32 +89,24 @@ const screenLevelGenre = getElementFromTemplate(`
 `);
 const buttonsAnswerWrapper = screenLevelGenre.querySelector(`.genre`);
 const buttonSubmitAnswer = screenLevelGenre.querySelector(`.genre-answer-send`);
-const checkboxesList = buttonsAnswerWrapper.querySelectorAll(`[name="answer"]`);
-const checkboxesAnswer = Array.from(checkboxesList);
 const results = [screenResultWin, screenResultTimeOver, screenResultFail];
 const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
-const getStateCheckbox = (checkbox) => checkbox.checked;
-const getCountCheckedAnswer = () => {
-  let count = 0;
-  checkboxesAnswer.forEach((checkbox) => {
-    if (getStateCheckbox(checkbox)) {
-      count++;
-    }
-  });
-  return count;
-};
+const currentForm = screenLevelGenre.querySelector(`form`);
 
 buttonSubmitAnswer.disabled = true;
 
-buttonsAnswerWrapper.addEventListener(`click`, (evt, countAnswer = getCountCheckedAnswer()) => {
+buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
   if (evt.target.name === `answer`) {
-    buttonSubmitAnswer.disabled = !countAnswer;
+    const buttonsAnswerActive = buttonsAnswerWrapper.querySelectorAll(`[name="answer"]:checked`);
+    buttonSubmitAnswer.disabled = !buttonsAnswerActive.length;
   }
 });
 
 buttonSubmitAnswer.addEventListener(`click`, (evt, result = getRandomResult()) => {
   evt.preventDefault();
-  showScreen(result);
+  currentForm.reset();
+  buttonSubmitAnswer.disabled = true;
+  showScreenElement(result);
 });
 
 export default screenLevelGenre;

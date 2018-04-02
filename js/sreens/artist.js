@@ -1,5 +1,5 @@
-import {getElementFromTemplate, showScreen} from '../utils/utils';
-import screenLevelGenre from './genre.js';
+import {getElementFromTemplate, showScreenElement} from '../utils';
+import screenLevelGenre from './genre';
 
 const screenLevelArtist = getElementFromTemplate(`
   <section class="main main--level main--level-artist">
@@ -62,14 +62,15 @@ const screenLevelArtist = getElementFromTemplate(`
     </div>
   </section>
 `);
-
 const buttonsAnswerWrapper = screenLevelArtist.querySelector(`.main-list`);
+const currentForm = screenLevelArtist.querySelector(`form`);
 
 buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
   const target = evt.target;
   if (target.classList.contains(`main-answer`) ||
     target.parentElement.classList.contains(`main-answer`)) {
-    showScreen(screenLevelGenre);
+    currentForm.reset();
+    showScreenElement(screenLevelGenre);
   }
 });
 

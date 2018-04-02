@@ -1,4 +1,4 @@
-import {getElementFromTemplate, showScreen} from './../utils/utils';
+import {getElementFromTemplate, showScreenElement} from '../utils';
 import screenStart from './start';
 
 const screenResultWin = getElementFromTemplate(`
@@ -15,9 +15,6 @@ const screenResultWin = getElementFromTemplate(`
 `);
 const buttonReplay = screenResultWin.querySelector(`.main-replay`);
 
-buttonReplay.onclick = () => {
-  showScreen(screenStart);
-};
-
+buttonReplay.addEventListener(`click`, () => showScreenElement(screenStart));
 
 export default screenResultWin;

@@ -1,4 +1,4 @@
 import screenStart from './sreens/start';
-import {showScreen} from './utils/utils';
+import {showScreenElement} from './utils';
 
-showScreen(screenStart);
+showScreenElement(screenStart);
