@@ -1,5 +1,5 @@
 import {getElementFromTemplate, showScreenElement} from '../utils';
-import screenLevelArtist from './artist';
+import screenArtist from './artist';
 
 const screenStart = getElementFromTemplate(`
   <section class="main main--welcome">
@@ -15,6 +15,6 @@ const screenStart = getElementFromTemplate(`
 `);
 const buttonPlay = screenStart.querySelector(`.main-play`);
 
-buttonPlay.addEventListener(`click`, () => showScreenElement(screenLevelArtist));
+buttonPlay.addEventListener(`click`, () => showScreenElement(screenArtist));
 
 export default screenStart;

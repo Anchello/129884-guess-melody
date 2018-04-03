@@ -3,7 +3,7 @@ import screenResultWin from './win';
 import screenResultTimeOver from './time-over';
 import screenResultFail from './fail';
 
-const screenLevelGenre = getElementFromTemplate(`
+const screenGenre = getElementFromTemplate(`
   <section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -87,11 +87,9 @@ const screenLevelGenre = getElementFromTemplate(`
     </div>
   </section>
 `);
-const buttonsAnswerWrapper = screenLevelGenre.querySelector(`.genre`);
-const buttonSubmitAnswer = screenLevelGenre.querySelector(`.genre-answer-send`);
-const results = [screenResultWin, screenResultTimeOver, screenResultFail];
-const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
-const currentForm = screenLevelGenre.querySelector(`form`);
+const buttonsAnswerWrapper = screenGenre.querySelector(`.genre`);
+const buttonSubmitAnswer = screenGenre.querySelector(`.genre-answer-send`);
+const currentForm = screenGenre.querySelector(`form`);
 
 buttonSubmitAnswer.disabled = true;
 
@@ -102,11 +100,13 @@ buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
   }
 });
 
-buttonSubmitAnswer.addEventListener(`click`, (evt, result = getRandomResult()) => {
+buttonSubmitAnswer.addEventListener(`click`, (evt) => {
+  const results = [screenResultWin, screenResultTimeOver, screenResultFail];
+  const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
   evt.preventDefault();
   currentForm.reset();
   buttonSubmitAnswer.disabled = true;
-  showScreenElement(result);
+  showScreenElement(getRandomResult());
 });
 
-export default screenLevelGenre;
+export default screenGenre;

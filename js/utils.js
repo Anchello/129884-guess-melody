@@ -6,8 +6,7 @@
 const getElementFromTemplate = (templateString) => {
   const template = document.createElement(`template`);
   template.innerHTML = templateString.trim();
-  const templateContent = template.content;
-  return templateContent.querySelector(`.main`).cloneNode(true);
+  return template.content.firstChild;
 };
 
 /**
@@ -16,9 +15,8 @@ const getElementFromTemplate = (templateString) => {
  */
 const showScreenElement = (screenElement) => {
   const mainSection = document.querySelector(`section.main`);
-  const screenElementOld = mainSection.querySelector(`.main`);
-  if (screenElementOld) {
-    mainSection.removeChild(screenElementOld);
+  while (mainSection.firstChild) {
+    mainSection.removeChild(mainSection.firstChild);
   }
   mainSection.appendChild(screenElement);
 };

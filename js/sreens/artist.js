@@ -1,7 +1,7 @@
 import {getElementFromTemplate, showScreenElement} from '../utils';
-import screenLevelGenre from './genre';
+import screenGenre from './genre';
 
-const screenLevelArtist = getElementFromTemplate(`
+const screenArtist = getElementFromTemplate(`
   <section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -62,16 +62,16 @@ const screenLevelArtist = getElementFromTemplate(`
     </div>
   </section>
 `);
-const buttonsAnswerWrapper = screenLevelArtist.querySelector(`.main-list`);
-const currentForm = screenLevelArtist.querySelector(`form`);
+const buttonsAnswerWrapper = screenArtist.querySelector(`.main-list`);
+const currentForm = screenArtist.querySelector(`form`);
 
 buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
   const target = evt.target;
   if (target.classList.contains(`main-answer`) ||
     target.parentElement.classList.contains(`main-answer`)) {
     currentForm.reset();
-    showScreenElement(screenLevelGenre);
+    showScreenElement(screenGenre);
   }
 });
 
-export default screenLevelArtist;
+export default screenArtist;
