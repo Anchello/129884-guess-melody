@@ -89,6 +89,8 @@ const screenGenre = getElementFromTemplate(`
 `);
 const buttonsAnswerWrapper = screenGenre.querySelector(`.genre`);
 const buttonSubmitAnswer = screenGenre.querySelector(`.genre-answer-send`);
+const results = [screenResultWin, screenResultTimeOver, screenResultFail];
+const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
 const currentForm = screenGenre.querySelector(`form`);
 
 buttonSubmitAnswer.disabled = true;
@@ -101,8 +103,6 @@ buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
 });
 
 buttonSubmitAnswer.addEventListener(`click`, (evt) => {
-  const results = [screenResultWin, screenResultTimeOver, screenResultFail];
-  const getRandomResult = () => results[Math.floor(Math.random() * results.length)];
   evt.preventDefault();
   currentForm.reset();
   buttonSubmitAnswer.disabled = true;
