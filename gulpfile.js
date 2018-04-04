@@ -113,7 +113,7 @@ gulp.task('test', function () {
   return gulp
     .src(['js/**/*.test.js'], { read: false })
     .pipe(mocha({
-      compilers: ['js:babel-register'],
+      require: ['babel-register'],
       reporter: 'spec'
     }));
 });
