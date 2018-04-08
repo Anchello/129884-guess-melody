@@ -1,21 +1,26 @@
-export const SCORE_OPTIONS = {
-  correctAnswer: 1,
-  correctFastAnswer: 1,
-  incorrectAnswer: -2,
-  timeLimit: 30000
+export const GAME_OPTIONS = {
+  correctPoint: 1,
+  fastPoint: 1,
+  incorrectPoint: -2,
+  timeLimit: 30000,
+  maxAnswers: 10,
+  maxNotes: 3
 };
 
-export const INITIAL_GAME = {
-  maxAnswers: 10
-};
-
-export const countScore = (dataResult) => {
+export const countPoints = (dataResult, remainingNotes) => {
   if (!Array.isArray(dataResult)) {
-    throw new Error(`DataResult should be array`);
+    throw new Error(`DataResult should be of type array`);
   }
-
-  console.log(dataResult.length);
-  if (dataResult.length < 10) {
+  if (!dataResult.length) {
+    throw new Error(`DataResult should not be empty`);
+  }
+  if (typeof remainingNotes !== `number`) {
+    throw new Error(`RemainingNotes should be of type number`);
+  }
+  if (remainingNotes < 0) {
+    throw new Error(`RemainingNotes should not be negative value`);
+  }
+  if (dataResult.length < GAME_OPTIONS.maxAnswers || remainingNotes === 0) {
     return -1;
   }
 
@@ -25,12 +30,12 @@ export const countScore = (dataResult) => {
     const {answer, time} = result;
     if (answer) {
       correctAnswers++;
-      if (time < 30000) {
+      if (time < GAME_OPTIONS.timeLimit) {
         ++correctFastAnswers;
       }
     }
   });
 
-  const incorrectAnswers = INITIAL_GAME.maxAnswers - correctAnswers;
-  return correctAnswers * SCORE_OPTIONS.correctAnswer + correctFastAnswers * SCORE_OPTIONS.correctFastAnswer + incorrectAnswers * SCORE_OPTIONS.incorrectAnswer;
+  const incorrectAnswers = GAME_OPTIONS.maxAnswers - correctAnswers;
+  return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
 };
