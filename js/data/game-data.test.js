@@ -4,15 +4,15 @@ import {countPoints} from './game-data';
 
 const CORRECT_ANSWER = {
   answer: true,
-  time: 30000
+  time: 30
 };
 const INCORRECT_ANSWER = {
   answer: false,
-  time: 10000
+  time: 10
 };
 const FAST_ANSWER = {
   answer: true,
-  time: 10000
+  time: 10
 };
 const FailedDataResult = getDataResult(INCORRECT_ANSWER, 3);
 const FailedDataResult2 = getDataResult(CORRECT_ANSWER, 7);

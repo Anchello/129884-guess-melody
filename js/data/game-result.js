@@ -28,9 +28,7 @@ export const outputGameResult = (statistics, gameResult) => {
 
   const currentPoints = gameResult.points;
   const newStatistics = [...statistics, currentPoints];
-  newStatistics.sort(function (a, b) {
-    return b - a;
-  });
+  newStatistics.sort((a, b) => b - a);
 
   const place = newStatistics.indexOf(currentPoints) + 1;
   const countPlayers = newStatistics.length;

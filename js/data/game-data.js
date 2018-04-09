@@ -2,7 +2,7 @@ export const GAME_OPTIONS = {
   correctPoint: 1,
   fastPoint: 1,
   incorrectPoint: -2,
-  timeLimit: 30000,
+  timeLimit: 30,
   maxAnswers: 10,
   maxNotes: 3
 };
@@ -36,7 +36,7 @@ export const countPoints = (dataResult, remainingNotes) => {
     if (answer) {
       correctAnswers++;
       if (time < GAME_OPTIONS.timeLimit) {
-        ++correctFastAnswers;
+        correctFastAnswers++;
       }
     }
   });
