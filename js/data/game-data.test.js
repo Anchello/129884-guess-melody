@@ -44,11 +44,11 @@ describe(`Check to count the points`, () => {
     assert.throws(() => countPoints([], 0), /DataResult should not be empty/);
   });
   it(`should not allow set non array`, () => {
-    assert.throws(() => countPoints(0, 0), /DataResult should be of type array/);
-    assert.throws(() => countPoints(null, 0), /DataResult should be of type array/);
-    assert.throws(() => countPoints({}, 0), /DataResult should be of type array/);
-    assert.throws(() => countPoints(`DataResult`, 0), /DataResult should be of type array/);
-    assert.throws(() => countPoints(), /DataResult should be of type array/);
+    assert.throws(() => countPoints(0, 0), /DataResult should be of array/);
+    assert.throws(() => countPoints(null, 0), /DataResult should be of array/);
+    assert.throws(() => countPoints({}, 0), /DataResult should be of array/);
+    assert.throws(() => countPoints(`DataResult`, 0), /DataResult should be of array/);
+    assert.throws(() => countPoints(), /DataResult should be of array/);
   });
   it(`should not allow set negative values`, () => {
     assert.throws(() => countPoints(FailedDataResult, -1), /RemainingNotes should not be negative value/);

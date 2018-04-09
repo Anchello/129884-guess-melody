@@ -6,10 +6,15 @@ export const GAME_OPTIONS = {
   maxAnswers: 10,
   maxNotes: 3
 };
-
+/**
+ *  Подсчет набранных очков за текущую игру
+ * @param {Array} dataResult
+ * @param {Number} remainingNotes
+ * @return {Number}
+ */
 export const countPoints = (dataResult, remainingNotes) => {
   if (!Array.isArray(dataResult)) {
-    throw new Error(`DataResult should be of type array`);
+    throw new Error(`DataResult should be of array`);
   }
   if (!dataResult.length) {
     throw new Error(`DataResult should not be empty`);

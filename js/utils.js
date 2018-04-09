@@ -24,7 +24,7 @@ const showScreenElement = (screenElement) => {
  * Получение массива данных с одинаковыми результатами
  * @param {Object} answers
  * @param {Number} lengthResult
- * @return {Array} dataResult - данные с одинаковыми результатами
+ * @return {Array}
  */
 const getDataResult = (answers, lengthResult) => {
   if (typeof lengthResult !== `number`) {
