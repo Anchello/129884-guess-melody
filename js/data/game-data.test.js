@@ -25,7 +25,7 @@ const fastDataResult2 = [...getDataResult(FAST_ANSWER, 9), ...getDataResult(INCO
 const fastDataResult3 = [...getDataResult(FAST_ANSWER, 3), ...getDataResult(CORRECT_ANSWER, 7)];
 const fastDataResult4 = [...getDataResult(INCORRECT_ANSWER, 2), ...getDataResult(FAST_ANSWER, 4), ...getDataResult(CORRECT_ANSWER, 4)];
 
-describe(`Check to count the points`, () => {
+describe(`Count the points`, () => {
   it(`should be fail game`, () => {
     assert.equal(-1, countPoints(FailedDataResult, 0));
     assert.equal(-1, countPoints(FailedDataResult2, 3));

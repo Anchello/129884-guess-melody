@@ -20,7 +20,7 @@ export const countPoints = (dataResult, remainingNotes) => {
     throw new Error(`DataResult should not be empty`);
   }
   if (typeof remainingNotes !== `number`) {
-    throw new Error(`RemainingNotes should be of type number`);
+    throw new TypeError(`RemainingNotes should be of type number`);
   }
   if (remainingNotes < 0) {
     throw new Error(`RemainingNotes should not be negative value`);

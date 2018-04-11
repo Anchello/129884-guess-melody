@@ -4,7 +4,7 @@
  * @param {object} gameResult
  * @return {string}
  */
-export const outputGameResult = (statistics, gameResult) => {
+export const getPlayerResults = (statistics, gameResult) => {
   if (!Array.isArray(statistics)) {
     throw new Error(`Statistics should be of array`);
   }
