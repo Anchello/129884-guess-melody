@@ -10,7 +10,7 @@ const getElementFromTemplate = (templateString) => {
 };
 
 /**
- * Получение DOM-элемента из строки разметки
+ * Показывание нового экрана
  * @param {Element} screenElement
  */
 const showScreenElement = (screenElement) => {
@@ -21,4 +21,24 @@ const showScreenElement = (screenElement) => {
   mainSection.appendChild(screenElement);
 };
 
-export {getElementFromTemplate, showScreenElement};
+/**
+ * Получение массива данных с одинаковыми результатами
+ * @param {Object} answers
+ * @param {Number} lengthResult
+ * @return {Array}
+ */
+const getDataResult = (answers, lengthResult) => {
+  if (typeof lengthResult !== `number`) {
+    throw new TypeError(`LengthResult should be of type number`);
+  }
+  if (typeof answers !== `object`) {
+    throw new TypeError(`Answers should be of type object`);
+  }
+  const dataResult = [];
+  for (let i = 0; i < lengthResult; i++) {
+    dataResult.push(answers);
+  }
+  return dataResult;
+};
+
+export {getElementFromTemplate, showScreenElement, getDataResult};
