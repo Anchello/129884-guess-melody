@@ -3,9 +3,13 @@ export const GAME_OPTIONS = {
   fastPoint: 1,
   incorrectPoint: -2,
   timeLimit: 30,
-  maxAnswers: 10,
-  maxNotes: 3
+  maxAnswers: 10
 };
+
+export const INITIAL_GAME = Object.freeze({
+  notes: 0,
+  time: 300
+});
 /**
  *  Подсчет набранных очков за текущую игру
  * @param {Array} dataResult
