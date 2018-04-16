@@ -25,7 +25,7 @@ export default (statistics, dataResult, remainingNotes, remainingTimes) => {
       };
       break;
     case gameResult.points > 0:
-      const timeSeconds = INITIAL_GAME.time - gameResult.remainingTimes;
+      const timeSeconds = INITIAL_GAME.remainingTimes - gameResult.remainingTimes;
       const SECS_IN_ONE_MIN = 60;
       const timeREsult = {
         mins: Math.trunc(timeSeconds / SECS_IN_ONE_MIN),

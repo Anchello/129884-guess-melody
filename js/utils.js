@@ -86,7 +86,7 @@ const compareArrays = (array1, array2) => {
  * @param {string} answers - ответ от игрока
  */
 const updateGameLevel = (gameOptions, dataResult, correctAnswers, answers) => {
-  const TIME_ANSWER = 40;
+  const TIME_ANSWER = 29;
   const newLevel = gameOptions.level + 1;
   const isCorrectAnswers = compareArrays(correctAnswers, answers);
   const newNotes = isCorrectAnswers ? gameOptions.notes : gameOptions.notes + 1;

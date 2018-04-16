@@ -51,5 +51,9 @@ export const countPoints = (dataResult, remainingNotes) => {
   const incorrectAnswers = GAME_OPTIONS.maxLevels - correctAnswers;
   return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
 };
-
-export const isGameOver = (gameOptions) => gameOptions.level > GAME_OPTIONS.maxLevels || gameOptions.notes === GAME_OPTIONS.maxNotes;
+/**
+ * Конец игры
+ * @param {object} gameOptions - текущие параметры игры
+ * @return {boolean}
+ */
+export const isGameOver = (gameOptions) => gameOptions.level > GAME_OPTIONS.maxLevels || gameOptions.notes === GAME_OPTIONS.maxNotes || gameOptions.remainingTimes <= 0;
