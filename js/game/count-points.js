@@ -3,16 +3,19 @@ export const GAME_OPTIONS = {
   fastPoint: 1,
   incorrectPoint: -2,
   timeLimit: 30,
-  maxAnswers: 10
+  maxLevels: 10,
+  maxNotes: 3
 };
 
 export const INITIAL_GAME = Object.freeze({
+  level: 0,
   notes: 0,
-  time: 300
+  remainingTimes: 300
 });
+
 /**
  *  Подсчет набранных очков за текущую игру
- * @param {Array} dataResult
+ * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
  * @param {Number} remainingNotes
  * @return {Number}
  */
@@ -29,7 +32,7 @@ export const countPoints = (dataResult, remainingNotes) => {
   if (remainingNotes < 0) {
     throw new Error(`RemainingNotes should not be negative value`);
   }
-  if (dataResult.length < GAME_OPTIONS.maxAnswers || remainingNotes === 0) {
+  if (dataResult.length < GAME_OPTIONS.maxLevels || remainingNotes === 0) {
     return -1;
   }
 
@@ -45,6 +48,8 @@ export const countPoints = (dataResult, remainingNotes) => {
     }
   });
 
-  const incorrectAnswers = GAME_OPTIONS.maxAnswers - correctAnswers;
+  const incorrectAnswers = GAME_OPTIONS.maxLevels - correctAnswers;
   return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
 };
+
+export const isGameOver = (gameOptions) => gameOptions.level > GAME_OPTIONS.maxLevels || gameOptions.notes === GAME_OPTIONS.maxNotes;

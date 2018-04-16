@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {createTimer} from './game-timer';
+import {createTimer} from './timer';
 
 describe(`Create the timer for the game`, () => {
   it(`should get the object`, () => {

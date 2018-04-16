@@ -1,6 +1,6 @@
 import {assert} from 'chai';
-import {getDataResult} from './../utils';
-import {countPoints} from './game-data';
+import {getDataResult} from '../utils';
+import {countPoints} from './count-points';
 
 const CORRECT_ANSWER = {
   answer: true,
