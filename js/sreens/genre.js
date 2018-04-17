@@ -3,13 +3,13 @@ import genreTemplate from './templates/genre';
 import screenArtist from './artist';
 import screenResult from './result';
 import {isGameOver} from '../game/count-points';
+import questions from './../data/questions';
 
 export default (gameOptions, dataResult) => {
   const screenGenre = getElementFromTemplate(genreTemplate(gameOptions));
   const buttonsAnswerWrapper = screenGenre.querySelector(`.genre`);
   const buttonSubmitAnswer = screenGenre.querySelector(`.genre-answer-send`);
   const currentForm = screenGenre.querySelector(`form`);
-  const rightAnswers = [`answer-2`, `answer-3`]; // для примера
   let buttonsAnswerActive;
   buttonSubmitAnswer.disabled = true;
   buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
@@ -22,7 +22,7 @@ export default (gameOptions, dataResult) => {
   buttonSubmitAnswer.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     const currentAnswers = Array.from(buttonsAnswerActive).map((it) => it.value);
-    updateGameLevel(gameOptions, dataResult, rightAnswers, currentAnswers);
+    updateGameLevel(gameOptions, dataResult, questions.levelGenre.answers, currentAnswers);
     const screen = isGameOver(gameOptions) ? screenResult : screenArtist;
     showScreenElement(screen(gameOptions, dataResult));
     currentForm.reset();

@@ -1,10 +1,12 @@
 import dataAudio from './audio';
 
-const audioLevelArtist = dataAudio[0];
-const audioLevelArtist2 = dataAudio[1];
-const audioLevelArtist3 = dataAudio[2];
-const audioLevelGenre = dataAudio[3];
-const audioLevelGenre2 = dataAudio[4];
+const getRandomAudio = () => dataAudio[Math.floor(Math.random() * dataAudio.length)];
+
+const audioLevelArtist = getRandomAudio();
+const audioLevelGenre = getRandomAudio();
+const randomAudio = getRandomAudio();
+const randomAudio2 = getRandomAudio();
+const randomAudio3 = getRandomAudio();
 
 const questions = {
   levelArtist: {
@@ -17,13 +19,13 @@ const questions = {
         isCorrect: true
       },
       {
-        preview: audioLevelArtist2.image,
-        artist: audioLevelArtist2.artist,
+        preview: randomAudio.image,
+        artist: randomAudio.artist,
         isCorrect: false
       },
       {
-        preview: audioLevelArtist3.image,
-        artist: audioLevelArtist3.artist,
+        preview: randomAudio2.image,
+        artist: randomAudio2.artist,
         isCorrect: false
       }
     ]
@@ -37,18 +39,18 @@ const questions = {
         isCorrect: true
       },
       {
-        audio: audioLevelGenre2.src,
-        artist: audioLevelGenre2.artist,
+        audio: randomAudio.src,
+        artist: randomAudio.artist,
         isCorrect: true
       },
       {
-        audio: audioLevelArtist.src,
-        artist: audioLevelArtist.artist,
+        audio: randomAudio2.src,
+        artist: randomAudio2.artist,
         isCorrect: false
       },
       {
-        audio: audioLevelArtist2.src,
-        artist: audioLevelArtist2.artist,
+        audio: randomAudio3.src,
+        artist: randomAudio3.artist,
         isCorrect: false
       }
     ]

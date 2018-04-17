@@ -1,5 +1,3 @@
-import questions from "./data/questions";
-
 /**
  * Получение DOM-элемента из строки разметки
  * @param {String} templateString
@@ -81,21 +79,6 @@ const compareArrays = (array1, array2) => {
   return array1.length === array2.length && array1.every((item, index)=> item === array2[index]);
 };
 /**
- * Обновление результатов и параметров игры
- * @param {object} gameOptions - данные игры
- * @param {Array} dataResult - массив данных с резальтатом прошлых ответов
- * @param {Array} rightAnswers - правильный ответ
- * @param {string} answers - ответ от игрока
- */
-const updateGameLevel = (gameOptions, dataResult, rightAnswers, answers) => {
-  const TIME_ANSWER = 29;
-  const newLevel = gameOptions.level + 1;
-  const isCorrectAnswers = compareArrays(rightAnswers, answers);
-  const newNotes = isCorrectAnswers ? gameOptions.notes : gameOptions.notes + 1;
-  updateDataResult(dataResult, isCorrectAnswers, TIME_ANSWER);
-  updateGameOptions(gameOptions, newLevel, newNotes, TIME_ANSWER);
-};
-/**
  * Получение правильных ответов из массива данных
  * @param {array} answers - все предлагаемые ответы
  * @return {array}
@@ -103,5 +86,20 @@ const updateGameLevel = (gameOptions, dataResult, rightAnswers, answers) => {
 const getRightAnswers = (answers) => {
   return answers.filter((answer) => answer.isCorrect).map((it) => it.artist);
 };
+/**
+ * Обновление результатов и параметров игры
+ * @param {object} gameOptions - данные игры
+ * @param {Array} dataResult - массив данных с резальтатом прошлых ответов
+ * @param {Array} answers - все предлагаемые ответы
+ * @param {Array} userAnswers - ответ от игрока
+ */
+const updateGameLevel = (gameOptions, dataResult, answers, userAnswers) => {
+  const TIME_ANSWER = 29;
+  const newLevel = gameOptions.level + 1;
+  const isCorrectAnswers = compareArrays(getRightAnswers(answers), userAnswers);
+  const newNotes = isCorrectAnswers ? gameOptions.notes : gameOptions.notes + 1;
+  updateDataResult(dataResult, isCorrectAnswers, TIME_ANSWER);
+  updateGameOptions(gameOptions, newLevel, newNotes, TIME_ANSWER);
+};
 
-export {getElementFromTemplate, showScreenElement, getDataResult, updateDataResult, updateGameOptions, updateGameLevel, getRightAnswers};
+export {getElementFromTemplate, showScreenElement, getDataResult, updateDataResult, updateGameOptions, updateGameLevel};
