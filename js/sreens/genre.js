@@ -9,7 +9,7 @@ export default (gameOptions, dataResult) => {
   const buttonsAnswerWrapper = screenGenre.querySelector(`.genre`);
   const buttonSubmitAnswer = screenGenre.querySelector(`.genre-answer-send`);
   const currentForm = screenGenre.querySelector(`form`);
-  const correctAnswers = [`answer-2`, `answer-3`]; // для примера
+  const rightAnswers = [`answer-2`, `answer-3`]; // для примера
   let buttonsAnswerActive;
   buttonSubmitAnswer.disabled = true;
   buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
@@ -22,7 +22,7 @@ export default (gameOptions, dataResult) => {
   buttonSubmitAnswer.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     const currentAnswers = Array.from(buttonsAnswerActive).map((it) => it.value);
-    updateGameLevel(gameOptions, dataResult, correctAnswers, currentAnswers);
+    updateGameLevel(gameOptions, dataResult, rightAnswers, currentAnswers);
     const screen = isGameOver(gameOptions) ? screenResult : screenArtist;
     showScreenElement(screen(gameOptions, dataResult));
     currentForm.reset();
