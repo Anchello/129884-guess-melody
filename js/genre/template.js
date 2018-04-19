@@ -1,11 +1,11 @@
-import headerElement from './header';
-import questions from "../../data/questions";
+import headerElement from '../header/header-game';
+import questions from "../data/questions";
 
 const question = questions.levelGenre;
-export default (gameOptions) => {
+export default (dataGame) => {
   return `
     <section class="main main--level main--level-genre">
-    ${headerElement(gameOptions)}
+    ${headerElement(dataGame)}
     <div class="main-wrap">
       <h2 class="title">${question.title}</h2>
       <form class="genre">

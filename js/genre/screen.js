@@ -1,12 +1,10 @@
-import {getElementFromTemplate, showScreenElement, updateGameLevel} from '../utils';
-import genreTemplate from './templates/genre';
-import screenArtist from './artist';
-import screenResult from './result';
-import {isGameOver} from '../game/count-points';
-import questions from './../data/questions';
+import {getElementFromTemplate, getUpdatedGame} from '../utils';
+import genreTemplate from './template';
+import {switchScreen} from '../game-common/switch-screen';
+import questions from '../data/questions';
 
-export default (gameOptions, dataResult) => {
-  const screenGenre = getElementFromTemplate(genreTemplate(gameOptions));
+export default (dataGame) => {
+  const screenGenre = getElementFromTemplate(genreTemplate(dataGame));
   const buttonsAnswerWrapper = screenGenre.querySelector(`.genre`);
   const buttonSubmitAnswer = screenGenre.querySelector(`.genre-answer-send`);
   const currentForm = screenGenre.querySelector(`form`);
@@ -22,9 +20,8 @@ export default (gameOptions, dataResult) => {
   buttonSubmitAnswer.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     const currentAnswers = Array.from(buttonsAnswerActive).map((it) => it.value);
-    updateGameLevel(gameOptions, dataResult, questions.levelGenre.answers, currentAnswers);
-    const screen = isGameOver(gameOptions) ? screenResult : screenArtist;
-    showScreenElement(screen(gameOptions, dataResult));
+    const updatedDataGame = getUpdatedGame(dataGame, questions.levelGenre.answers, currentAnswers);
+    switchScreen(updatedDataGame);
     currentForm.reset();
     buttonSubmitAnswer.disabled = true;
   });

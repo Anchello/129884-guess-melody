@@ -2,7 +2,7 @@ const getTimerValue = (remainingTimes) => {
   const SECS_IN_ONE_MIN = 60;
   const addZero = (num) => (num < 10) ? `0${num}` : num;
   return {
-    valueMins: Math.trunc(remainingTimes / SECS_IN_ONE_MIN),
+    valueMins: addZero(Math.trunc(remainingTimes / SECS_IN_ONE_MIN)),
     valueSecs: addZero(remainingTimes % SECS_IN_ONE_MIN)
   };
 };
@@ -16,9 +16,9 @@ const drawNote = (countNotes) => {
   return arr.join(` `);
 };
 
-export default (gameOptions) => {
+export default (dataGame) => {
   return `
-    <header>
+    <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
         <circle
           cx="390" cy="390" r="370"
@@ -26,11 +26,11 @@ export default (gameOptions) => {
           style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">${getTimerValue(gameOptions.remainingTimes).valueMins}</span><!--
+        <span class="timer-value-mins">${getTimerValue(dataGame.remainingTimes).valueMins}</span><!--
         --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">${getTimerValue(gameOptions.remainingTimes).valueSecs}</span>
+        --><span class="timer-value-secs">${getTimerValue(dataGame.remainingTimes).valueSecs}</span>
       </div>
-      <div class="main-mistakes">${drawNote(gameOptions.notes)}</div>
-    </header>
+      <div class="main-mistakes">${drawNote(dataGame.notes)}</div>
+    </div>
   `;
 };

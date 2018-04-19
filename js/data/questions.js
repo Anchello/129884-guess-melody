@@ -1,12 +1,10 @@
 import dataAudio from './audio';
 
-const getRandomAudio = () => dataAudio[Math.floor(Math.random() * dataAudio.length)];
-
-const audioLevelArtist = getRandomAudio();
-const audioLevelGenre = getRandomAudio();
-const randomAudio = getRandomAudio();
-const randomAudio2 = getRandomAudio();
-const randomAudio3 = getRandomAudio();
+const audioLevelArtist = dataAudio[0];
+const audioLevelGenre = dataAudio[1];
+const randomAudio = dataAudio[2];
+const randomAudio2 = dataAudio[3];
+const randomAudio3 = dataAudio[4];
 
 const questions = {
   levelArtist: {

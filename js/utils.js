@@ -1,3 +1,5 @@
+import {GAME_INITIAL} from './game-common/initial-options';
+
 /**
  * Получение DOM-элемента из строки разметки
  * @param {String} templateString
@@ -22,32 +24,14 @@ const showScreenElement = (screenElement) => {
 };
 
 /**
- * Получение массива данных с одинаковыми результатами
- * @param {Object} answers
- * @param {Number} lengthResult
- * @return {Array}
- */
-const getDataResult = (answers, lengthResult) => {
-  if (typeof lengthResult !== `number`) {
-    throw new TypeError(`LengthResult should be of type number`);
-  }
-  if (typeof answers !== `object`) {
-    throw new TypeError(`Answers should be of type object`);
-  }
-  const dataResult = [];
-  for (let i = 0; i < lengthResult; i++) {
-    dataResult.push(answers);
-  }
-  return dataResult;
-};
-/**
  * Обновление данных результата
  * @param {Array} dataResult - массив данных с резальтатом прошлых ответов
  * @param {boolean} isCorrectAnswer - ответ правильный или нет
  * @param {number} timeAnswer - время которое пошло на ответ
+ * @return {Array}
  */
-const updateDataResult = (dataResult, isCorrectAnswer, timeAnswer) => {
-  dataResult.push({
+const getUpdatedDataResult = (dataResult, isCorrectAnswer, timeAnswer) => {
+  return dataResult.concat({
     answer: isCorrectAnswer,
     time: timeAnswer
   });
@@ -55,18 +39,20 @@ const updateDataResult = (dataResult, isCorrectAnswer, timeAnswer) => {
 
 /**
  * Обновление параметров игры (уровень и кол-во нот)
- * @param {object} gameOptions - данные игры
- * @param {number} level - текущий уровень
+ * @param {object} dataGame - данные игры
  * @param {number} notes - кол-во нот
  * @param {number} timeAnswer - время которое пошло на ответ
+ * @param {array} dataResult -  новый массив данных с резальтатом прошлых ответов
  * @return {object}
  */
-const updateGameOptions = (gameOptions, level, notes, timeAnswer) => {
-  const newTimes = gameOptions.remainingTimes - timeAnswer;
-  return Object.assign(gameOptions, {
-    level,
+const getUpdatedDataGame = (dataGame, notes, timeAnswer = 0, dataResult = []) => {
+  const updatedLevel = dataGame.level + 1;
+  const newTimes = dataGame.remainingTimes - timeAnswer;
+  return Object.assign({}, dataGame, {
+    level: updatedLevel,
     notes,
-    remainingTimes: newTimes
+    remainingTimes: newTimes,
+    dataResult,
   });
 };
 /**
@@ -76,7 +62,7 @@ const updateGameOptions = (gameOptions, level, notes, timeAnswer) => {
  * @return {boolean}
  */
 const compareArrays = (array1, array2) => {
-  return array1.length === array2.length && array1.every((item, index)=> item === array2[index]);
+  return array1.length === array2.length && array1.every((it) => array2.includes(it));
 };
 /**
  * Получение правильных ответов из массива данных
@@ -84,22 +70,37 @@ const compareArrays = (array1, array2) => {
  * @return {array}
  */
 const getRightAnswers = (answers) => {
-  return answers.filter((answer) => answer.isCorrect).map((it) => it.artist);
+  return answers
+      .filter((answer) => answer.isCorrect)
+      .map((it) => it.artist);
 };
 /**
  * Обновление результатов и параметров игры
- * @param {object} gameOptions - данные игры
- * @param {Array} dataResult - массив данных с резальтатом прошлых ответов
+ * @param {object} dataGame - данные игры
  * @param {Array} answers - все предлагаемые ответы
  * @param {Array} userAnswers - ответ от игрока
+ * @return {object}
  */
-const updateGameLevel = (gameOptions, dataResult, answers, userAnswers) => {
+const getUpdatedGame = (dataGame, answers, userAnswers) => {
   const TIME_ANSWER = 29;
-  const newLevel = gameOptions.level + 1;
   const isCorrectAnswers = compareArrays(getRightAnswers(answers), userAnswers);
-  const newNotes = isCorrectAnswers ? gameOptions.notes : gameOptions.notes + 1;
-  updateDataResult(dataResult, isCorrectAnswers, TIME_ANSWER);
-  updateGameOptions(gameOptions, newLevel, newNotes, TIME_ANSWER);
+  const updatedNotes = isCorrectAnswers ? dataGame.notes : dataGame.notes + 1;
+  const updatedDataResult = getUpdatedDataResult(dataGame.dataResult, isCorrectAnswers, TIME_ANSWER);
+  return getUpdatedDataGame(dataGame, updatedNotes, TIME_ANSWER, updatedDataResult);
 };
 
-export {getElementFromTemplate, showScreenElement, getDataResult, updateDataResult, updateGameOptions, updateGameLevel};
+/**
+ * Получение начальных параметров игры
+ * @return {object}
+ */
+const getInitialDataGame = () => {
+  return Object.assign({}, GAME_INITIAL);
+};
+
+export {
+  getElementFromTemplate,
+  showScreenElement,
+  getUpdatedDataGame,
+  getUpdatedGame,
+  getInitialDataGame
+};

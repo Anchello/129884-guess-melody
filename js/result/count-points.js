@@ -1,22 +1,8 @@
-export const GAME_OPTIONS = {
-  correctPoint: 1,
-  fastPoint: 1,
-  incorrectPoint: -2,
-  timeLimit: 30,
-  maxLevels: 10,
-  maxNotes: 3
-};
-
-export const INITIAL_GAME = Object.freeze({
-  level: 0,
-  notes: 0,
-  remainingTimes: 300
-});
-
+import {GAME_OPTIONS} from '../game-common/initial-options';
 /**
  *  Подсчет набранных очков за текущую игру
  * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
- * @param {Number} remainingNotes
+ * @param {Number} remainingNotes - оставшиеся ноты
  * @return {Number}
  */
 export const countPoints = (dataResult, remainingNotes) => {
@@ -51,9 +37,3 @@ export const countPoints = (dataResult, remainingNotes) => {
   const incorrectAnswers = GAME_OPTIONS.maxLevels - correctAnswers;
   return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
 };
-/**
- * Конец игры
- * @param {object} gameOptions - текущие параметры игры
- * @return {boolean}
- */
-export const isGameOver = (gameOptions) => gameOptions.level > GAME_OPTIONS.maxLevels || gameOptions.notes === GAME_OPTIONS.maxNotes || gameOptions.remainingTimes <= 0;
