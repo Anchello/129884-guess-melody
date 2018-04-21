@@ -1,6 +1,6 @@
 import {outputGameResult} from './output-result';
 import {countPoints} from './count-points';
-import {GAME_INITIAL, GAME_OPTIONS} from '../game-common/initial-options';
+import {GAME_INITIAL, GameOptions} from '../game-common/initial-options';
 
 /**
  * Получение результата игры в виде кол-ва очков, оставшихся нот и оставшегося времени
@@ -8,7 +8,7 @@ import {GAME_INITIAL, GAME_OPTIONS} from '../game-common/initial-options';
  * @return {{points: number, remainingNotes: number, remainingTimes: number}}
  */
 const getGameResult = (dataGame) => {
-  const remainingNotes = GAME_OPTIONS.maxNotes - dataGame.notes;
+  const remainingNotes = GameOptions.MAX_NOTES - dataGame.notes;
   const dataResult = dataGame.dataResult;
   return {
     points: countPoints(dataResult, remainingNotes),
@@ -55,7 +55,7 @@ export default (statistics, dataGame) => {
         title: `Вы настоящий меломан!`,
         state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
           <br>вы набрали ${gameResult.points} баллов (8 быстрых)
-          <br>совершив ${GAME_OPTIONS.maxNotes - gameResult.remainingNotes} ошибки`,
+          <br>совершив ${GameOptions.MAX_NOTES - gameResult.remainingNotes} ошибки`,
         comparison: resultText,
         button: `Сыграть ещё раз`
       };

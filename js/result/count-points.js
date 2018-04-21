@@ -1,4 +1,4 @@
-import {GAME_OPTIONS} from '../game-common/initial-options';
+import {GameOptions} from '../game-common/initial-options';
 /**
  *  Подсчет набранных очков за текущую игру
  * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
@@ -18,7 +18,7 @@ export const countPoints = (dataResult, remainingNotes) => {
   if (remainingNotes < 0) {
     throw new Error(`RemainingNotes should not be negative value`);
   }
-  if (dataResult.length < GAME_OPTIONS.maxLevels || remainingNotes === 0) {
+  if (dataResult.length < GameOptions.MAX_LEVELS || remainingNotes === 0) {
     return -1;
   }
 
@@ -28,12 +28,12 @@ export const countPoints = (dataResult, remainingNotes) => {
     const {answer, time} = result;
     if (answer) {
       correctAnswers++;
-      if (time < GAME_OPTIONS.timeLimit) {
+      if (time < GameOptions.TIME_LIMIT) {
         correctFastAnswers++;
       }
     }
   });
 
-  const incorrectAnswers = GAME_OPTIONS.maxLevels - correctAnswers;
-  return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
+  const incorrectAnswers = GameOptions.MAX_LEVELS - correctAnswers;
+  return correctAnswers * GameOptions.CORRECT_POINT + correctFastAnswers * GameOptions.FAST_POINT + incorrectAnswers * GameOptions.INCORRECT_POINT;
 };

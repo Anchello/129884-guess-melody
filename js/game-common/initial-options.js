@@ -1,10 +1,10 @@
-export const GAME_OPTIONS = {
-  correctPoint: 1,
-  fastPoint: 1,
-  incorrectPoint: -2,
-  timeLimit: 30,
-  maxLevels: 10,
-  maxNotes: 3
+export const GameOptions = {
+  CORRECT_POINT: 1,
+  FAST_POINT: 1,
+  INCORRECT_POINT: -2,
+  TIME_LIMIT: 30,
+  MAX_LEVELS: 10,
+  MAX_NOTES: 3
 };
 
 export const GAME_INITIAL = Object.freeze({
