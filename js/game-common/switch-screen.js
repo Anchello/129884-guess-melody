@@ -13,19 +13,16 @@ export const switchScreen = (dataGame) => {
   const isGameOver = dataGame.notes === GameOptions.MAX_NOTES || dataGame.remainingTimes <= 0;
   const nextLevel = dataGame.level;
   let screen;
-  switch (true) {
-    case nextLevel <= 0:
-      screen = startScreen(dataGame).element;
-      break;
-    case nextLevel > GameOptions.MAX_LEVELS || isGameOver:
-      screen = resultScreen(dataGame).element;
-      break;
-    case nextLevel % 2 !== 0:
-      screen = artistScreen(dataGame).element;
-      break;
-    case nextLevel % 2 === 0:
-      screen = genreScreen(dataGame).element;
-      break;
+  if (nextLevel <= 0) {
+    screen = startScreen(dataGame).element;
+  } else if (nextLevel > GameOptions.MAX_LEVELS || isGameOver) {
+    screen = resultScreen(dataGame).element;
+  } else if (nextLevel % 2 !== 0) {
+    screen = artistScreen(dataGame).element;
+  } else if (nextLevel % 2 === 0) {
+    screen = genreScreen(dataGame).element;
+  } else {
+    throw new Error(`Unknown result: ${dataGame}`);
   }
   showScreenElement(screen);
 };

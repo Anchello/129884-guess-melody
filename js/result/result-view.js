@@ -1,7 +1,7 @@
 import LogoView from '../header/logo-view';
 import AbstractView from '../abstract-view';
 
-export default class GenreView extends AbstractView {
+export default class ResultView extends AbstractView {
   constructor(result) {
     super();
     this.result = result;
