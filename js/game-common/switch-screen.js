@@ -1,9 +1,9 @@
 import {GameOptions} from './initial-options';
 import {showScreenElement} from '../utils';
-import screenStart from '../start/start';
-import screenGenre from '../genre/screen';
-import screenArtist from '../artist/screen';
-import screenResult from '../result/screen';
+import startScreen from '../start/start-screen';
+import genreScreen from '../genre/genre-screen';
+import artistScreen from '../artist/artist-screen';
+import resultScreen from '../result/result-screen';
 
 /**
  * Переключение экранов игры
@@ -15,17 +15,17 @@ export const switchScreen = (dataGame) => {
   let screen;
   switch (true) {
     case nextLevel <= 0:
-      screen = screenStart;
+      screen = startScreen(dataGame).element;
       break;
     case nextLevel > GameOptions.MAX_LEVELS || isGameOver:
-      screen = screenResult;
+      screen = resultScreen(dataGame).element;
       break;
     case nextLevel % 2 !== 0:
-      screen = screenArtist;
+      screen = artistScreen(dataGame).element;
       break;
     case nextLevel % 2 === 0:
-      screen = screenGenre;
+      screen = genreScreen(dataGame).element;
       break;
   }
-  showScreenElement(screen(dataGame));
+  showScreenElement(screen);
 };

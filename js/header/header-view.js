@@ -1,3 +1,5 @@
+import AbstractView from '../abstract-view';
+
 const getTimerValue = (remainingTimes) => {
   const SECS_IN_ONE_MIN = 60;
   const addZero = (num) => (num < 10) ? `0${num}` : num;
@@ -16,8 +18,14 @@ const drawNote = (countNotes) => {
   return arr.join(` `);
 };
 
-export default (dataGame) => {
-  return `
+export default class HeaderView extends AbstractView {
+  constructor(dataGame) {
+    super();
+    this.dataGame = dataGame;
+  }
+
+  get template() {
+    return `
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
         <circle
@@ -26,11 +34,12 @@ export default (dataGame) => {
           style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">${getTimerValue(dataGame.remainingTimes).valueMins}</span><!--
+        <span class="timer-value-mins">${getTimerValue(this.dataGame.remainingTimes).valueMins}</span><!--
         --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">${getTimerValue(dataGame.remainingTimes).valueSecs}</span>
+        --><span class="timer-value-secs">${getTimerValue(this.dataGame.remainingTimes).valueSecs}</span>
       </div>
-      <div class="main-mistakes">${drawNote(dataGame.notes)}</div>
+      <div class="main-mistakes">${drawNote(this.dataGame.notes)}</div>
     </div>
   `;
-};
+  }
+}

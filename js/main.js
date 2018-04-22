@@ -1,5 +1,5 @@
-import screenStart from './start/start';
+import startScreen from './start/start-screen';
 import {showScreenElement, getInitialDataGame} from './utils';
 
 const dataGame = getInitialDataGame();
-showScreenElement(screenStart(dataGame));
+showScreenElement(startScreen(dataGame).element);
