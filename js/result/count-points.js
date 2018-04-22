@@ -1,15 +1,8 @@
-export const GAME_OPTIONS = {
-  correctPoint: 1,
-  fastPoint: 1,
-  incorrectPoint: -2,
-  timeLimit: 30,
-  maxAnswers: 10,
-  maxNotes: 3
-};
+import {GameOptions} from '../game-common/initial-options';
 /**
  *  Подсчет набранных очков за текущую игру
- * @param {Array} dataResult
- * @param {Number} remainingNotes
+ * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
+ * @param {Number} remainingNotes - оставшиеся ноты
  * @return {Number}
  */
 export const countPoints = (dataResult, remainingNotes) => {
@@ -25,7 +18,7 @@ export const countPoints = (dataResult, remainingNotes) => {
   if (remainingNotes < 0) {
     throw new Error(`RemainingNotes should not be negative value`);
   }
-  if (dataResult.length < GAME_OPTIONS.maxAnswers || remainingNotes === 0) {
+  if (dataResult.length < GameOptions.MAX_LEVELS || remainingNotes === 0) {
     return -1;
   }
 
@@ -35,12 +28,12 @@ export const countPoints = (dataResult, remainingNotes) => {
     const {answer, time} = result;
     if (answer) {
       correctAnswers++;
-      if (time < GAME_OPTIONS.timeLimit) {
+      if (time < GameOptions.TIME_LIMIT) {
         correctFastAnswers++;
       }
     }
   });
 
-  const incorrectAnswers = GAME_OPTIONS.maxAnswers - correctAnswers;
-  return correctAnswers * GAME_OPTIONS.correctPoint + correctFastAnswers * GAME_OPTIONS.fastPoint + incorrectAnswers * GAME_OPTIONS.incorrectPoint;
+  const incorrectAnswers = GameOptions.MAX_LEVELS - correctAnswers;
+  return correctAnswers * GameOptions.CORRECT_POINT + correctFastAnswers * GameOptions.FAST_POINT + incorrectAnswers * GameOptions.INCORRECT_POINT;
 };
