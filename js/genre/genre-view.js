@@ -42,7 +42,7 @@ export default class GenreView extends AbstractView {
     this._currentForm.reset();
   }
 
-  onAnswer(userAnswers) {
+  onAnswer() {
   }
 
   bind(element) {

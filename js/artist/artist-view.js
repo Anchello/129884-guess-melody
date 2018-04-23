@@ -45,7 +45,7 @@ export default class ArtistView extends AbstractView {
     this._currentForm.reset();
   }
 
-  onAnswer(userAnswer) {
+  onAnswer() {
   }
 
   bind(element) {
