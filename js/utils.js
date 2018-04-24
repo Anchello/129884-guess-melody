@@ -1,5 +1,6 @@
 import {GAME_INITIAL} from './game-common/initial-options';
 
+const mainSection = document.querySelector(`section.main`);
 /**
  * Получение DOM-элемента из строки разметки
  * @param {String} templateString
@@ -16,7 +17,6 @@ const getElementFromTemplate = (templateString) => {
  * @param {Element} screenElement
  */
 const showScreenElement = (screenElement) => {
-  const mainSection = document.querySelector(`section.main`);
   while (mainSection.firstChild) {
     mainSection.removeChild(mainSection.firstChild);
   }
@@ -94,7 +94,7 @@ const getUpdatedGame = (dataGame, answers, userAnswers) => {
  * @return {object}
  */
 const getInitialDataGame = () => {
-  return Object.assign({}, GAME_INITIAL);
+  return GAME_INITIAL;
 };
 
 export {

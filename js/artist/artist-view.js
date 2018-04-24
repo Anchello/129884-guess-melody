@@ -5,8 +5,7 @@ import questions from '../data/questions';
 export default class ArtistView extends AbstractView {
   constructor(dataGame) {
     super();
-    this.dataGame = dataGame;
-    this._headerTemplate = new HeaderView(this.dataGame).template;
+    this._headerTemplate = new HeaderView(dataGame).template;
     this._question = questions.levelArtist;
   }
 
