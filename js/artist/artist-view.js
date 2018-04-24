@@ -1,16 +1,23 @@
-import headerElement from '../header/header-game';
+import HeaderView from '../header/header-view';
+import AbstractView from '../abstract-view';
 import questions from '../data/questions';
 
-const question = questions.levelArtist;
-export default (dataGame) => {
-  return `
+export default class ArtistView extends AbstractView {
+  constructor(dataGame) {
+    super();
+    this._headerTemplate = new HeaderView(dataGame).template;
+    this._question = questions.levelArtist;
+  }
+
+  get template() {
+    return `
     <section class="main main--level main--level-artist">
-      ${headerElement(dataGame)}
+      ${this._headerTemplate}
       <div class="main-wrap">
-        <h2 class="title main-title">${question.title}</h2>
+        <h2 class="title main-title">${this._question.title}</h2>
         <div class="player-wrapper">
           <div class="player">
-            <audio src="${question.audio}"></audio>
+            <audio src="${this._question.audio}"></audio>
             <button class="player-control player-control--pause"></button>
             <div class="player-track">
               <span class="player-status"></span>
@@ -18,7 +25,7 @@ export default (dataGame) => {
           </div>
         </div>
         <form class="main-list">
-          ${question.answers.map((it, index) =>`
+          ${this._question.answers.map((it, index) =>`
             <div class="main-answer-wrapper">
               <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${it.artist}"/>
               <label class="main-answer" for="answer-${index}">
@@ -31,4 +38,22 @@ export default (dataGame) => {
       </div>
     </section>
   `;
-};
+  }
+
+  reset() {
+    this._currentForm.reset();
+  }
+
+  onAnswer() {
+  }
+
+  bind(element) {
+    this._currentForm = element.querySelector(`form`);
+    this._currentForm.addEventListener(`change`, (evt) => {
+      const userAnswer = evt.target;
+      if (userAnswer.classList.contains(`main-answer-r`)) {
+        this.onAnswer(userAnswer);
+      }
+    });
+  }
+}
