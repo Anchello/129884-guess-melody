@@ -1,12 +1,11 @@
 import HeaderView from '../header/header-view';
 import AbstractView from '../abstract-view';
-import questions from '../data/questions';
 
 export default class GenreView extends AbstractView {
-  constructor(dataGame) {
+  constructor(dataGame, questions) {
     super();
     this._headerTemplate = new HeaderView(dataGame).template;
-    this._question = questions.levelGenre;
+    this._question = questions;
   }
 
   get template() {

@@ -6,8 +6,9 @@ const randomAudio = dataAudio[2];
 const randomAudio2 = dataAudio[3];
 const randomAudio3 = dataAudio[4];
 
-const questions = {
-  levelArtist: {
+const questions = [
+  {
+    type: `artist`,
     title: `Кто исполняет эту песню?`,
     audio: audioLevelArtist.src,
     answers: [
@@ -28,7 +29,8 @@ const questions = {
       }
     ]
   },
-  levelGenre: {
+  {
+    type: `genre`,
     title: `Выберите r&b треки`,
     answers: [
       {
@@ -53,6 +55,6 @@ const questions = {
       }
     ]
   }
-};
+];
 
 export default questions;

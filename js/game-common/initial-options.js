@@ -13,3 +13,8 @@ export const GAME_INITIAL = Object.freeze({
   remainingTimes: 300,
   dataResult: []
 });
+
+export const QuestionType = {
+  GENRE: `genre`,
+  ARTIST: `artist`
+};

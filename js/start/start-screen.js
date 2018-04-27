@@ -1,10 +1,17 @@
-import {getUpdatedDataGame} from '../utils';
-import {switchScreen} from '../game-common/switch-screen';
 import StartView from './start-view';
+import Application from '../application';
 
-export default (dataGame) => {
-  const startScreen = new StartView();
-  const updatedDataGame = getUpdatedDataGame(dataGame, dataGame.notes);
-  startScreen.onButtonClick = () => switchScreen(updatedDataGame);
-  return startScreen;
-};
+class StartScreen {
+  constructor(model) {
+    this._startScreen = new StartView();
+    this._startScreen.onButtonClick = () => {
+      model.restart();
+      Application.showGameScreen();
+    };
+  }
+
+  get element() {
+    return this._startScreen.element;
+  }
+}
+export default StartScreen;

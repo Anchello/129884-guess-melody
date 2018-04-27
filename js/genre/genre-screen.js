@@ -5,7 +5,7 @@ import questions from '../data/questions';
 
 export default (dataGame) => {
   const genreScreen = new GenreView(dataGame);
-  genreScreen.onAnswer = (userAnswers) => {
+  artistScreen.onAnswer = (userAnswers) => {
     const updatedDataGame = getUpdatedGame(dataGame, questions.levelGenre.answers, userAnswers);
     switchScreen(updatedDataGame);
     genreScreen.reset();

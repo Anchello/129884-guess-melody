@@ -1,12 +1,11 @@
 import HeaderView from '../header/header-view';
 import AbstractView from '../abstract-view';
-import questions from '../data/questions';
 
 export default class ArtistView extends AbstractView {
-  constructor(dataGame) {
+  constructor(dataGame, questions) {
     super();
     this._headerTemplate = new HeaderView(dataGame).template;
-    this._question = questions.levelArtist;
+    this._question = questions;
   }
 
   get template() {
@@ -52,7 +51,7 @@ export default class ArtistView extends AbstractView {
     this._currentForm.addEventListener(`change`, (evt) => {
       const userAnswer = evt.target;
       if (userAnswer.classList.contains(`main-answer-r`)) {
-        this.onAnswer(userAnswer);
+        this.onAnswer([userAnswer.value]);
       }
     });
   }
