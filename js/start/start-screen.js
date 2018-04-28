@@ -2,10 +2,9 @@ import StartView from './start-view';
 import Application from '../application';
 
 class StartScreen {
-  constructor(model) {
+  constructor() {
     this._startScreen = new StartView();
     this._startScreen.onButtonClick = () => {
-      model.restart();
       Application.showGameScreen();
     };
   }

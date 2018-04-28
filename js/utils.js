@@ -1,4 +1,4 @@
-import {GAME_INITIAL} from './game-common/initial-options';
+import {GAME_INITIAL} from './data/initial-options';
 
 // const mainSection = document.querySelector(`section.main`);
 // /**

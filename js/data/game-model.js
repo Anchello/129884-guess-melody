@@ -1,42 +1,31 @@
-import {GAME_INITIAL} from './initial-options';
-// import {createTimer} from './timer';
-import questions from './../data/questions';
+import {GAME_INITIAL, GameOptions} from './initial-options';
+import questions from './questions';
 
 class GameModel {
   constructor() {
-    this.restart();
+    this._state = null;
   }
 
   get state() {
     return this._state;
   }
 
-  restart() {
+  init() {
     this._state = GAME_INITIAL;
   }
 
   getCurrentQuestion() {
-    return questions[this._state.level];
+    return questions[this._state.level - 1];
   }
 
-  isDead() {
-  //   return this._state.lives <= 0;
+  isGameOver() {
+    return this._state.level > GameOptions.MAX_LEVELS || this._state.notes === GameOptions.MAX_NOTES || this._state.remainingTimes <= 0;
   }
 
   getCurrentAnswers() {
     return this.getCurrentQuestion().answers;
   }
 
-  updateLevel() {
-    const level = this._state.level + 1;
-    this._state = Object.assign({}, this._state, {
-      level
-    });
-  }
-
-  // tick() {
-  //   this._state = createTimer.tick(this._state);
-  // }
   /**
    * Обновление результатов и параметров игры
    * @param {Array} answers - все предлагаемые ответы
@@ -46,21 +35,18 @@ class GameModel {
     const TIME_ANSWER = 29;
     const isCorrectAnswers = this._compareArrays(this._getRightAnswers(answers), userAnswers);
     const updatedLevel = this._state.level + 1;
-    console.log(updatedLevel);
     const updatedTimes = this._state.remainingTimes - TIME_ANSWER;
     const updatedDataResult = this._state.dataResult.concat({
       answer: isCorrectAnswers,
       time: TIME_ANSWER
     });
     const updatedNotes = isCorrectAnswers ? this._state.notes : this._state.notes + 1;
-    console.log(this._state);
     this._state = Object.assign({}, this._state, {
       level: updatedLevel,
       notes: updatedNotes,
       remainingTimes: updatedTimes,
       dataResult: updatedDataResult
     });
-    console.log(this._state);
   }
   /**
    * Сравнение массивов

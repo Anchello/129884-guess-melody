@@ -1,4 +1,4 @@
-import {GameOptions} from '../game-common/initial-options';
+import {GameOptions} from '../data/initial-options';
 /**
  *  Подсчет набранных очков за текущую игру
  * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
