@@ -17,17 +17,17 @@ class ResultScreen {
     this._resultScreen.onButtonClick = () => Application.showGameScreen();
     return this._resultScreen.element;
   }
+
   /**
    * Получение результата игры в виде объекта содержащего кол-во очков, оставшихся нот и оставшегося времени
-   * @return {{points: number, remainingNotes: number, remainingTimes: number}}
+   * @return {{points: number, remainingNotes: number, remainingTime: number}}
    */
   getGameResult() {
     const remainingNotes = GameOptions.MAX_NOTES - this._state.notes;
-    const dataResult = this._state.dataResult;
     return {
-      points: countPoints(dataResult, remainingNotes),
+      points: countPoints(this._state.dataResult, remainingNotes),
       remainingNotes,
-      remainingTimes: this._state.remainingTimes
+      remainingTime: this._state.remainingTime
     };
   }
   /**
@@ -35,7 +35,7 @@ class ResultScreen {
    * @return {{mins: number, secs: number}}
    */
   getTimeResult() {
-    const timeSeconds = GAME_INITIAL.remainingTimes - this._gameResult.remainingTimes;
+    const timeSeconds = GAME_INITIAL.remainingTime - this._gameResult.remainingTime;
     const SECS_IN_ONE_MIN = 60;
     return {
       mins: Math.trunc(timeSeconds / SECS_IN_ONE_MIN),
@@ -57,7 +57,7 @@ class ResultScreen {
         state: resultText,
         button: `Попробовать ещё раз`
       };
-    } else if (this._gameResult.remainingTimes === 0) {
+    } else if (this._gameResult.remainingTime === 0) {
       result = {
         title: `Увы и ах!`,
         state: resultText,

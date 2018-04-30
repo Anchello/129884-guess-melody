@@ -13,14 +13,14 @@ export const outputGameResult = (statistics, gameResult) => {
   }
   if (!(gameResult.hasOwnProperty(`points`)
       && gameResult.hasOwnProperty(`remainingNotes`)
-      && gameResult.hasOwnProperty(`remainingTimes`))) {
-    throw new Error(`GameResult should has properties 'points', 'remainingNotes' and 'remainingTimes'`);
+      && gameResult.hasOwnProperty(`remainingTime`))) {
+    throw new Error(`GameResult should has properties 'points', 'remainingNotes' and 'remainingTime'`);
   }
-  if (gameResult.remainingNotes === 0 || gameResult.points < 0) {
-    return `У вас закончились все попытки. <br> Ничего, повезёт в следующий раз!`;
-  }
-  if (gameResult.remainingTimes === 0) {
+  if (gameResult.remainingTime === 0) {
     return `Время вышло! <br> Вы не успели отгадать все мелодии`;
+  }
+  if (gameResult.remainingNotes === 0) {
+    return `У вас закончились все попытки. <br> Ничего, повезёт в следующий раз!`;
   }
 
   const currentPoints = gameResult.points;

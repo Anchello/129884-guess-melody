@@ -5,7 +5,6 @@ import GameModel from './data/game-model';
 
 const mainSection = document.querySelector(`section.main`);
 /**
- * Показывание нового экрана
  * @param {Element} screenElement
  */
 const showScreenElement = (screenElement) => {

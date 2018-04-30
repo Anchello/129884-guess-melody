@@ -7,17 +7,17 @@ const GAME_RESULT = [
   {
     points: 14,
     remainingNotes: 2,
-    remainingTimes: 22
+    remainingTime: 22
   },
   {
     points: -1,
     remainingNotes: 0,
-    remainingTimes: 150
+    remainingTime: 150
   },
   {
     points: 14,
     remainingNotes: 2,
-    remainingTimes: 0
+    remainingTime: 0
   }
 ];
 
@@ -44,7 +44,7 @@ describe(`Get output result`, () => {
     assert.throws(() => outputGameResult(STATISTICS, true), /GameResult should be of type object and not null/);
   });
   it(`should not allow has incorrect properties of object`, () => {
-    assert.throws(() => outputGameResult(STATISTICS, INCORRECTED_RESULT), /GameResult should has properties 'points', 'remainingNotes' and 'remainingTimes'/);
+    assert.throws(() => outputGameResult(STATISTICS, INCORRECTED_RESULT), /GameResult should has properties 'points', 'remainingNotes' and 'remainingTime'/);
   });
   it(`should not allow set non array`, () => {
     assert.throws(() => outputGameResult(0, GAME_RESULT[0]), /Statistics should be of array/);

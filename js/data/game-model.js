@@ -1,9 +1,11 @@
 import {GAME_INITIAL, GameOptions} from './initial-options';
 import questions from './questions';
+import Timer from '../timer/timer';
 
 class GameModel {
   constructor() {
     this._state = null;
+    this._timer = null;
   }
 
   get state() {
@@ -12,6 +14,7 @@ class GameModel {
 
   init() {
     this._state = GAME_INITIAL;
+    this._timer = new Timer(this._state.remainingTime);
   }
 
   getCurrentQuestion() {
@@ -19,53 +22,49 @@ class GameModel {
   }
 
   isGameOver() {
-    return this._state.level > GameOptions.MAX_LEVELS || this._state.notes === GameOptions.MAX_NOTES || this._state.remainingTimes <= 0;
+    return this._state.level > GameOptions.MAX_LEVELS || this._state.notes === GameOptions.MAX_NOTES || this._state.remainingTime <= 0;
   }
 
-  getCurrentAnswers() {
-    return this.getCurrentQuestion().answers;
+  tick() {
+    const tick = this._timer.tick();
+    this._updateState({remainingTime: this._timer.time});
+    return tick;
   }
 
-  /**
-   * Обновление результатов и параметров игры
-   * @param {Array} answers - все предлагаемые ответы
-   * @param {Array} userAnswers - ответ от игрока
-   */
-  getUpdatedGame(answers, userAnswers) {
-    const TIME_ANSWER = 29;
-    const isCorrectAnswers = this._compareArrays(this._getRightAnswers(answers), userAnswers);
+  updateLevel() {
     const updatedLevel = this._state.level + 1;
-    const updatedTimes = this._state.remainingTimes - TIME_ANSWER;
-    const updatedDataResult = this._state.dataResult.concat({
-      answer: isCorrectAnswers,
-      time: TIME_ANSWER
-    });
-    const updatedNotes = isCorrectAnswers ? this._state.notes : this._state.notes + 1;
-    this._state = Object.assign({}, this._state, {
-      level: updatedLevel,
-      notes: updatedNotes,
-      remainingTimes: updatedTimes,
-      dataResult: updatedDataResult
-    });
+    this._updateState({level: updatedLevel});
   }
+
+  updateNotes() {
+    const updatedNotes = this._state.notes + 1;
+    this._updateState({notes: updatedNotes});
+  }
+
   /**
-   * Сравнение массивов
-   * @param {array} array1 - первый массив
-   * @param {array} array2 - второй массив
-   * @return {boolean}
+   * @param {boolean} answer
+   * @param {number} time
    */
-  _compareArrays(array1, array2) {
-    return array1.length === array2.length && array1.every((it) => array2.includes(it));
+  updateDataResult(answer, time) {
+    const updatedDataResult = this._state.dataResult.concat({answer, time});
+    this._updateState({dataResult: updatedDataResult});
   }
+
   /**
-   * Получение правильных ответов из массива данных
-   * @param {array} answers - все предлагаемые ответы
    * @return {array}
    */
-  _getRightAnswers(answers) {
-    return answers
+  getCurrentRightAnswers() {
+    return this.getCurrentQuestion().answers
         .filter((answer) => answer.isCorrect)
         .map((it) => it.artist);
+  }
+
+  /**
+   * @param {object} newState
+   * @private
+   */
+  _updateState(newState) {
+    this._state = Object.assign({}, this._state, newState);
   }
 }
 
