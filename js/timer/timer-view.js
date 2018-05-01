@@ -9,6 +9,10 @@ const getTimerValue = (remainingTime) => {
   };
 };
 
+const isFinishedClass = (remainingTime) => {
+  return remainingTime < 30;
+};
+
 export default class TimerView extends AbstractView {
   constructor(dataGame) {
     super();
@@ -22,10 +26,10 @@ export default class TimerView extends AbstractView {
         <circle
           cx="390" cy="390" r="370"
           class="timer-line"
-          style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+          style="filter: url(../#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" stroke="#fff"></circle>
       </svg>
-      <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">${getTimerValue(this.dataGame.remainingTime).valueMins}</span><!--
+      <div class="timer-value ${isFinishedClass(this.dataGame.remainingTime) ? `timer-value--finished` : ``}" xmlns="http://www.w3.org/1999/xhtml">
+          <span class="timer-value-mins">${getTimerValue(this.dataGame.remainingTime).valueMins}</span><!--
         --><span class="timer-value-dots">:</span><!--
         --><span class="timer-value-secs">${getTimerValue(this.dataGame.remainingTime).valueSecs}</span>
       </div>

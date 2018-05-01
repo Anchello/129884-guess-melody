@@ -3,11 +3,11 @@ import GameScreen from './game/game-screen';
 import ResultScreen from './result/result-screen';
 import GameModel from './data/game-model';
 
-const mainSection = document.querySelector(`section.main`);
 /**
  * @param {Element} screenElement
  */
 const showScreenElement = (screenElement) => {
+  const mainSection = document.querySelector(`section.main`);
   while (mainSection.firstChild) {
     mainSection.removeChild(mainSection.firstChild);
   }

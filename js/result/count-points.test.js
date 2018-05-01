@@ -1,5 +1,6 @@
 import {assert} from 'chai';
-import {countPoints} from './count-points';
+import ResultScreen from './result-screen';
+import GameModel from "../data/game-model";
 /**
  * Получение массива данных с одинаковыми результатами
  * @param {Object} answers
@@ -43,38 +44,37 @@ const fastDataResult3 = [...getDataResult(FAST_ANSWER, 3), ...getDataResult(CORR
 const fastDataResult4 = [...getDataResult(INCORRECT_ANSWER, 2), ...getDataResult(FAST_ANSWER, 4), ...getDataResult(CORRECT_ANSWER, 4)];
 
 describe(`Count the points`, () => {
+  const resultScreen = new ResultScreen(new GameModel());
   it(`should be fail game`, () => {
-    assert.equal(-1, countPoints(FailedDataResult, 0));
-    assert.equal(-1, countPoints(FailedDataResult2, 3));
-    assert.equal(-1, countPoints(FailedDataResult3, 0));
+    assert.equal(-1, resultScreen.countPoints(FailedDataResult, 0));
+    assert.equal(-1, resultScreen.countPoints(FailedDataResult2, 3));
+    assert.equal(-1, resultScreen.countPoints(FailedDataResult3, 0));
+    assert.equal(-1, resultScreen.countPoints([], 0));
   });
   it(`should all answers are correct`, () => {
-    assert.equal(10, countPoints(winDataResult, 3));
-    assert.equal(4, countPoints(winDataResult2, 1));
-    assert.equal(7, countPoints(winDataResult3, 2));
-    assert.equal(20, countPoints(fastDataResult, 3));
-    assert.equal(16, countPoints(fastDataResult2, 2));
-    assert.equal(13, countPoints(fastDataResult3, 3));
-    assert.equal(8, countPoints(fastDataResult4, 1));
-  });
-  it(`should not allow set empty array`, () => {
-    assert.throws(() => countPoints([], 0), /DataResult should not be empty/);
+    assert.equal(10, resultScreen.countPoints(winDataResult, 3));
+    assert.equal(4, resultScreen.countPoints(winDataResult2, 1));
+    assert.equal(7, resultScreen.countPoints(winDataResult3, 2));
+    assert.equal(20, resultScreen.countPoints(fastDataResult, 3));
+    assert.equal(16, resultScreen.countPoints(fastDataResult2, 2));
+    assert.equal(13, resultScreen.countPoints(fastDataResult3, 3));
+    assert.equal(8, resultScreen.countPoints(fastDataResult4, 1));
   });
   it(`should not allow set non array`, () => {
-    assert.throws(() => countPoints(0, 0), /DataResult should be of array/);
-    assert.throws(() => countPoints(null, 0), /DataResult should be of array/);
-    assert.throws(() => countPoints({}, 0), /DataResult should be of array/);
-    assert.throws(() => countPoints(`DataResult`, 0), /DataResult should be of array/);
-    assert.throws(() => countPoints(), /DataResult should be of array/);
+    assert.throws(() => resultScreen.countPoints(0, 0), /DataResult should be of array/);
+    assert.throws(() => resultScreen.countPoints(null, 0), /DataResult should be of array/);
+    assert.throws(() => resultScreen.countPoints({}, 0), /DataResult should be of array/);
+    assert.throws(() => resultScreen.countPoints(`DataResult`, 0), /DataResult should be of array/);
+    assert.throws(() => resultScreen.countPoints(), /DataResult should be of array/);
   });
   it(`should not allow set negative values`, () => {
-    assert.throws(() => countPoints(FailedDataResult, -1), /RemainingNotes should not be negative value/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult, -1), /RemainingNotes should not be negative value/);
   });
   it(`should not allow set non number value`, () => {
-    assert.throws(() => countPoints(FailedDataResult, CORRECT_ANSWER), /RemainingNotes should be of type number/);
-    assert.throws(() => countPoints(FailedDataResult, FailedDataResult), /RemainingNotes should be of type number/);
-    assert.throws(() => countPoints(FailedDataResult, null), /RemainingNotes should be of type number/);
-    assert.throws(() => countPoints(FailedDataResult, `RemainingNotes`), /RemainingNotes should be of type number/);
-    assert.throws(() => countPoints(FailedDataResult), /RemainingNotes should be of type number/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult, CORRECT_ANSWER), /RemainingNotes should be of type number/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult, FailedDataResult), /RemainingNotes should be of type number/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult, null), /RemainingNotes should be of type number/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult, `RemainingNotes`), /RemainingNotes should be of type number/);
+    assert.throws(() => resultScreen.countPoints(FailedDataResult), /RemainingNotes should be of type number/);
   });
 });

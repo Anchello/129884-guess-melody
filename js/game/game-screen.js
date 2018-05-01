@@ -34,6 +34,7 @@ class GameScreen {
       this.updateTimer();
       if (!tick) {
         this.stopTimerGame();
+        Application.showResult(this.model);
       }
     }, 1000);
   }
