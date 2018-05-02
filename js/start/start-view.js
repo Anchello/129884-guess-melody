@@ -27,8 +27,8 @@ export default class StartView extends AbstractView {
   onButtonClick() {
   }
 
-  bind(element) {
-    const buttonPlay = element.querySelector(`.main-play`);
+  bind() {
+    const buttonPlay = this.element.querySelector(`.main-play`);
     buttonPlay.addEventListener(`click`, () => this.onButtonClick());
   }
 }

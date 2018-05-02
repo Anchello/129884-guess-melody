@@ -1,9 +1,9 @@
 import {GAME_INITIAL, GameOptions} from './initial-options';
-import questions from './questions';
 import Timer from '../timer/timer';
 
 class GameModel {
-  constructor() {
+  constructor(questions) {
+    this.questions = questions;
     this._state = null;
     this._timer = null;
   }
@@ -18,7 +18,7 @@ class GameModel {
   }
 
   getCurrentQuestion() {
-    return questions[this._state.level - 1];
+    return this.questions[this._state.level - 1];
   }
 
   isGameOver() {
@@ -54,9 +54,13 @@ class GameModel {
    * @return {array}
    */
   getCurrentRightAnswers() {
-    return this.getCurrentQuestion().answers
-        .filter((answer) => answer.isCorrect)
-        .map((it) => it.artist);
+    let answersIndex = [];
+    this.getCurrentQuestion().answers.forEach((answer, index) => {
+      if (answer.isCorrect) {
+        answersIndex.push(index);
+      }
+    });
+    return answersIndex;
   }
 
   /**

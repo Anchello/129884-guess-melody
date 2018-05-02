@@ -41,7 +41,6 @@ class ResultScreen {
       const {answer, time} = result;
       if (answer) {
         points += GameOptions.CORRECT_POINT;
-        // correctAnswers++;
         if (time < GameOptions.TIME_LIMIT) {
           points += GameOptions.FAST_POINT;
           this._correctFastAnswers++;

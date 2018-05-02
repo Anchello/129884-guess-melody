@@ -4,6 +4,8 @@ export default class ArtistView extends AbstractView {
   constructor(questions) {
     super();
     this._question = questions;
+    this._pauseClass = `player-control--pause`;
+    this._currentForm = null;
   }
 
   get template() {
@@ -22,10 +24,10 @@ export default class ArtistView extends AbstractView {
       <form class="main-list">
         ${this._question.answers.map((it, index) =>`
           <div class="main-answer-wrapper">
-            <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${it.artist}"/>
+            <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${index}"/>
             <label class="main-answer" for="answer-${index}">
-              <img class="main-answer-preview" src="${it.preview}"
-                   alt="${it.artist}" width="134" height="134">
+              <img class="main-answer-preview" src="${it.preview.src}"
+                   alt="${it.artist}" width="${it.preview.width}" height="${it.preview.height}">
               ${it.artist}
             </label>
           </div>`).join(` `)}
@@ -41,13 +43,40 @@ export default class ArtistView extends AbstractView {
   onAnswer() {
   }
 
-  bind(element) {
-    this._currentForm = element.querySelector(`form`);
+  bind() {
+    const playerWrapper = this.element.querySelector(`.player-wrapper`);
+    this._currentForm = this.element.querySelector(`form`);
     this._currentForm.addEventListener(`change`, (evt) => {
       const userAnswer = evt.target;
       if (userAnswer.classList.contains(`main-answer-r`)) {
-        this.onAnswer([userAnswer.value]);
+        this.onAnswer([Number(userAnswer.value)]);
       }
     });
+    playerWrapper.addEventListener(`click`, (evt) => {
+      const target = evt.target;
+      if (target.classList.contains(`player-control`)) {
+        evt.preventDefault();
+        this._onPlayerClick(target);
+      }
+    });
+  }
+
+  _onPlayerClick(target) {
+    const currentControl = target;
+    const currentPlayer = currentControl.closest(`.player`);
+    const currentAudio = currentPlayer.querySelector(`audio`);
+    if (currentControl.classList.contains(this._pauseClass)) {
+      this._playAudio(currentControl, currentAudio);
+    } else {
+      this._pauseAudio(currentControl, currentAudio);
+    }
+  }
+  _playAudio(control, audio) {
+    control.classList.remove(this._pauseClass);
+    audio.play();
+  }
+  _pauseAudio(control, audio) {
+    control.classList.add(this._pauseClass);
+    audio.pause();
   }
 }

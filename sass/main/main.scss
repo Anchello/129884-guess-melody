@@ -37,6 +37,7 @@
   display: block;
   font: italic 300 2em $font;
   margin: 0 0 0.2em;
+  text-align: center;
 }
 
 .text {
@@ -49,5 +50,7 @@
 @import "--level/main--level";
 @import "--result/main--result";
 @import "--welcome/main--welcome";
+@import "--error/main--error";
 @import "timer";
 @import "mistake";
+@import "preloader";

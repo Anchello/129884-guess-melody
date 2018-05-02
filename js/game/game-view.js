@@ -7,7 +7,7 @@ export default class GameView extends AbstractView {
 
   get template() {
     return `
-    <section class="main main--level main--level-artist"></section>
+    <section class="main main--level"></section>
   `;
   }
 }

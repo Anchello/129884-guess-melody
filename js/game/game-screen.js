@@ -4,6 +4,7 @@ import GameView from './game-view';
 import TimerView from '../timer/timer-view';
 import NotesView from './notes-view';
 import Application from '../application';
+import {QuestionType} from '../data/initial-options';
 
 class GameScreen {
   constructor(model) {
@@ -47,10 +48,10 @@ class GameScreen {
   getGameContent() {
     const currentQuestion = this.model.getCurrentQuestion();
     switch (currentQuestion.type) {
-      case `artist`:
+      case QuestionType.ARTIST:
         this._gameContent = new ArtistView(currentQuestion);
         break;
-      case `genre`:
+      case QuestionType.GENRE:
         this._gameContent = new GenreView(currentQuestion);
         break;
       default:
