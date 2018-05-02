@@ -1,5 +1,3 @@
-import startScreen from './start/start-screen';
-import {showScreenElement, getInitialDataGame} from './utils';
+import Application from './application';
 
-const dataGame = getInitialDataGame();
-showScreenElement(startScreen(dataGame).element);
+Application.showStartScreen();

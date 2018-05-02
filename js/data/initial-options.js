@@ -8,8 +8,13 @@ export const GameOptions = {
 };
 
 export const GAME_INITIAL = Object.freeze({
-  level: 0,
+  level: 1,
   notes: 0,
-  remainingTimes: 300,
+  remainingTime: 300,
   dataResult: []
 });
+
+export const QuestionType = {
+  GENRE: `genre`,
+  ARTIST: `artist`
+};

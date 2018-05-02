@@ -1,4 +1,4 @@
-import LogoView from '../header/logo-view';
+import LogoView from '../view-common/logo-view';
 import AbstractView from '../abstract-view';
 
 export default class ResultView extends AbstractView {

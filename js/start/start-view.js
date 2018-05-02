@@ -1,5 +1,5 @@
 import AbstractView from '../abstract-view';
-import LogoView from '../header/logo-view';
+import LogoView from '../view-common/logo-view';
 
 const Start = {
   TITLE: `Правила игры`,
