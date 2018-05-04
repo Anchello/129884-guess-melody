@@ -72,11 +72,22 @@ export default class ArtistView extends AbstractView {
     }
   }
   _playAudio(control, audio) {
-    control.classList.remove(this._pauseClass);
-    audio.play();
+    audio.addEventListener(`canplay`, () => {
+      audio.play();
+      control.classList.remove(this._pauseClass);
+    });
   }
+
   _pauseAudio(control, audio) {
-    control.classList.add(this._pauseClass);
-    audio.pause();
+    const playPromise = audio.play();
+    if (playPromise) {
+      playPromise.then(() => {
+        audio.pause();
+        control.classList.add(this._pauseClass);
+      })
+          .catch((error) => {
+            console.info(error);
+          });
+    }
   }
 }

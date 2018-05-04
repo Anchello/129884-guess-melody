@@ -54,7 +54,7 @@ class GameModel {
    * @return {array}
    */
   getCurrentRightAnswers() {
-    let answersIndex = [];
+    const answersIndex = [];
     this.getCurrentQuestion().answers.forEach((answer, index) => {
       if (answer.isCorrect) {
         answersIndex.push(index);

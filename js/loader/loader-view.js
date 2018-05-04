@@ -1,7 +1,7 @@
 import AbstractView from '../abstract-view';
 import LogoView from '../view-common/logo-view';
 
-export default class PreloaderView extends AbstractView {
+export default class LoaderView extends AbstractView {
   constructor() {
     super();
     this._logoTemplate = new LogoView().template;
