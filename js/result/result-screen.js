@@ -6,10 +6,11 @@ class ResultScreen {
   /**
    * @param {object} model
    */
-  constructor(model) {
+  constructor(model, statistics) {
     this.model = model;
     this._state = this.model.state;
     this._resultScreen = null;
+    this._statistics = statistics;
   }
 
   get element() {
@@ -74,9 +75,8 @@ class ResultScreen {
   }
 
   _getResult() {
-    let statistics = [];
     this._gameResult = this._getGameResult(this._state);
-    const resultText = ResultScreen.outputGameResult(statistics, this._gameResult);
+    const resultText = ResultScreen.outputGameResult(this._statistics, this._gameResult);
     let result;
     if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
       result = {
