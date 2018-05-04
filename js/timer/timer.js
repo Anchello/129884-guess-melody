@@ -4,6 +4,9 @@
  */
 
 export default class Timer {
+  /**
+   * @param {number} time
+   */
   constructor(time) {
     if (typeof time !== `number`) {
       throw new TypeError(`InitialTime should be of type number`);

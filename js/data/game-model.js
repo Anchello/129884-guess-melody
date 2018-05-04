@@ -2,6 +2,9 @@ import {GAME_INITIAL, GameOptions} from './initial-options';
 import Timer from '../timer/timer';
 
 class GameModel {
+  /**
+   * @param {object} questions
+   */
   constructor(questions) {
     this.questions = questions;
     this._state = null;
@@ -17,18 +20,28 @@ class GameModel {
     this._timer = new Timer(this._state.remainingTime);
   }
 
-  getCurrentQuestion() {
-    return this.questions[this._state.level - 1];
-  }
-
-  isGameOver() {
-    return this._state.level > GameOptions.MAX_LEVELS || this._state.notes === GameOptions.MAX_NOTES || this._state.remainingTime <= 0;
-  }
-
   tick() {
     const tick = this._timer.tick();
     this._updateState({remainingTime: this._timer.time});
     return tick;
+  }
+
+  getCurrentQuestion() {
+    return this.questions[this._state.level - 1];
+  }
+
+  getCurrentRightAnswers() {
+    const answersIndex = [];
+    this.getCurrentQuestion().answers.forEach((answer, index) => {
+      if (answer.isCorrect) {
+        answersIndex.push(index);
+      }
+    });
+    return answersIndex;
+  }
+
+  isGameOver() {
+    return this._state.level > GameOptions.MAX_LEVELS || this._state.notes === GameOptions.MAX_NOTES || this._state.remainingTime <= 0;
   }
 
   updateLevel() {
@@ -48,19 +61,6 @@ class GameModel {
   updateDataResult(answer, time) {
     const updatedDataResult = this._state.dataResult.concat({answer, time});
     this._updateState({dataResult: updatedDataResult});
-  }
-
-  /**
-   * @return {array}
-   */
-  getCurrentRightAnswers() {
-    const answersIndex = [];
-    this.getCurrentQuestion().answers.forEach((answer, index) => {
-      if (answer.isCorrect) {
-        answersIndex.push(index);
-      }
-    });
-    return answersIndex;
   }
 
   /**

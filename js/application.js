@@ -6,9 +6,6 @@ import LoaderView from './loader/loader-view';
 import Loader from './loader/loader';
 import ErrorView from './error/error-view';
 
-/**
- * @param {Element} screenElement
- */
 const showScreenElement = (screenElement) => {
   const mainSection = document.querySelector(`section.main`);
   while (mainSection.firstChild) {

@@ -10,14 +10,17 @@ const drawNote = (countNotes) => {
 };
 
 export default class NotesView extends AbstractView {
-  constructor(dataGame) {
+  /**
+   * @param {object} state
+   */
+  constructor(state) {
     super();
-    this.dataGame = dataGame;
+    this.state = state;
   }
 
   get template() {
     return `
-      <div class="main-mistakes">${drawNote(this.dataGame.notes)}</div>
+      <div class="main-mistakes">${drawNote(this.state.notes)}</div>
   `;
   }
 }

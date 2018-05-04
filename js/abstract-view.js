@@ -1,8 +1,3 @@
-/**
- * Получение DOM-элемента из строки разметки
- * @param {String} templateString
- * @return {Element} - DOM-элемент
- */
 const getElementFromTemplate = (templateString) => {
   const template = document.createElement(`template`);
   template.innerHTML = templateString.trim();

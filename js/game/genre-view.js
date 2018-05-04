@@ -1,10 +1,14 @@
-import AbstractView from '../abstract-view';
+import GameView from './game-view';
 
-export default class GenreView extends AbstractView {
+export default class GenreView extends GameView {
+  /**
+   * @param {object} questions
+   */
   constructor(questions) {
     super();
     this._question = questions;
     this._pauseClass = `player-control--pause`;
+    this._playClass = `player-control--play`;
     this._currentForm = null;
     this._players = null;
   }
@@ -18,8 +22,8 @@ export default class GenreView extends AbstractView {
         <div class="genre-answer">
           <div class="player-wrapper">
             <div class="player">
-              <audio src="${it.audio}"></audio>
-              <button class="player-control player-control--pause" type="button"></button>
+              <audio src="${it.audio}" id="audio-${index}"></audio>
+              <button class="player-control player-control--pause" type="button" data-id="audio-${index}"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -34,28 +38,23 @@ export default class GenreView extends AbstractView {
   `;
   }
 
-  reset() {
-    this._currentForm.reset();
-  }
-
-  onAnswer() {
-  }
-
   bind() {
-    const buttonsAnswerWrapper = this.element.querySelector(`.genre`);
     const buttonSubmitAnswer = this.element.querySelector(`.genre-answer-send`);
     this._currentForm = this.element.querySelector(`form`);
-    this._players = Array.from(this.element.querySelectorAll(`.player`));
+    this._buttonsAnswerWrapper = this.element.querySelector(`.genre`);
     let buttonsAnswerActive;
     buttonSubmitAnswer.disabled = true;
-    buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
+    this._buttonsAnswerWrapper.addEventListener(`click`, (evt) => {
       const target = evt.target;
       if (target.name === `answer`) {
-        buttonsAnswerActive = buttonsAnswerWrapper.querySelectorAll(`[name="answer"]:checked`);
+        buttonsAnswerActive = this._buttonsAnswerWrapper.querySelectorAll(`[name="answer"]:checked`);
         buttonSubmitAnswer.disabled = !buttonsAnswerActive.length;
       } else if (target.classList.contains(`player-control`)) {
+        const currentAudio = this._buttonsAnswerWrapper.querySelector(`#${target.dataset.id}`);
+        const activeControls = Array.from(this._buttonsAnswerWrapper.querySelectorAll(`.${this._playClass}`));
         evt.preventDefault();
-        this._onPlayerClick(target);
+        this._pausePlayingAudio(activeControls, target);
+        this._onPlayerControlClick(target, currentAudio, this._pauseClass, this._playClass);
       }
     });
 
@@ -65,30 +64,19 @@ export default class GenreView extends AbstractView {
       this.onAnswer(userAnswers);
     });
   }
-  _onPlayerClick(target) {
-    const currentControl = target;
-    const currentPlayer = currentControl.closest(`.player`);
-    const currentAudio = currentPlayer.querySelector(`audio`);
-    if (currentControl.classList.contains(this._pauseClass)) {
-      this._players.forEach((it) => {
-        const control = it.querySelector(`.player-control`);
-        const audio = it.querySelector(`audio`);
-        if (control === currentControl) {
-          this._playAudio(control, audio);
-        } else if (!control.classList.contains(this._pauseClass)) {
-          this._pauseAudio(control, audio);
-        }
-      });
-    } else {
-      this._pauseAudio(currentControl, currentAudio);
-    }
+
+  reset() {
+    this._currentForm.reset();
   }
-  _playAudio(control, audio) {
-    control.classList.remove(this._pauseClass);
-    audio.play();
+
+  _pausePlayingAudio(activeControls, target) {
+    activeControls.filter((it) => it !== target)
+        .forEach((it) => {
+          const audio = this._buttonsAnswerWrapper.querySelector(`#${it.dataset.id}`);
+          this._pauseAudio(it, audio);
+        });
   }
-  _pauseAudio(control, audio) {
-    control.classList.add(this._pauseClass);
-    audio.pause();
+
+  onAnswer() {
   }
 }

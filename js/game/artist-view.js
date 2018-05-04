@@ -1,10 +1,14 @@
-import AbstractView from '../abstract-view';
+import GameView from './game-view';
 
-export default class ArtistView extends AbstractView {
+export default class ArtistView extends GameView {
+  /**
+   * @param {object} questions
+   */
   constructor(questions) {
     super();
     this._question = questions;
     this._pauseClass = `player-control--pause`;
+    this._playClass = `player-control--play`;
     this._currentForm = null;
   }
 
@@ -14,8 +18,8 @@ export default class ArtistView extends AbstractView {
       <h2 class="title main-title">${this._question.title}</h2>
       <div class="player-wrapper">
         <div class="player">
-          <audio src="${this._question.audio}"></audio>
-          <button class="player-control player-control--pause"></button>
+          <audio src="${this._question.audio}" id="audio-0"></audio>
+          <button class="player-control player-control--pause" data-id="audio-0"></button>
           <div class="player-track">
             <span class="player-status"></span>
           </div>
@@ -36,13 +40,6 @@ export default class ArtistView extends AbstractView {
   `;
   }
 
-  reset() {
-    this._currentForm.reset();
-  }
-
-  onAnswer() {
-  }
-
   bind() {
     const playerWrapper = this.element.querySelector(`.player-wrapper`);
     this._currentForm = this.element.querySelector(`form`);
@@ -56,38 +53,16 @@ export default class ArtistView extends AbstractView {
       const target = evt.target;
       if (target.classList.contains(`player-control`)) {
         evt.preventDefault();
-        this._onPlayerClick(target);
+        const currentAudio = playerWrapper.querySelector(`#${target.dataset.id}`);
+        this._onPlayerControlClick(target, currentAudio, this._pauseClass, this._playClass);
       }
     });
   }
 
-  _onPlayerClick(target) {
-    const currentControl = target;
-    const currentPlayer = currentControl.closest(`.player`);
-    const currentAudio = currentPlayer.querySelector(`audio`);
-    if (currentControl.classList.contains(this._pauseClass)) {
-      this._playAudio(currentControl, currentAudio);
-    } else {
-      this._pauseAudio(currentControl, currentAudio);
-    }
-  }
-  _playAudio(control, audio) {
-    audio.addEventListener(`canplay`, () => {
-      audio.play();
-      control.classList.remove(this._pauseClass);
-    });
+  reset() {
+    this._currentForm.reset();
   }
 
-  _pauseAudio(control, audio) {
-    const playPromise = audio.play();
-    if (playPromise) {
-      playPromise.then(() => {
-        audio.pause();
-        control.classList.add(this._pauseClass);
-      })
-          .catch((error) => {
-            console.info(error);
-          });
-    }
+  onAnswer() {
   }
 }
