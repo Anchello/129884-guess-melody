@@ -15,7 +15,7 @@ const isFinishedClass = (remainingTime) => {
 
 export default class TimerView extends AbstractView {
   /**
-   * @param {object} state
+   * @param {Object} state
    */
   constructor(state) {
     super();

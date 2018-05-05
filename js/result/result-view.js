@@ -3,7 +3,7 @@ import AbstractView from '../abstract-view';
 
 export default class ResultView extends AbstractView {
   /**
-   * @param {object} result
+   * @param {Object} result
    */
   constructor(result) {
     super();

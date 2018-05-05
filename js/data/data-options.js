@@ -11,7 +11,8 @@ export const GAME_INITIAL = Object.freeze({
   level: 1,
   notes: 0,
   remainingTime: 300,
-  dataResult: []
+  dataResult: [],
+  points: 0
 });
 
 export const QuestionType = {

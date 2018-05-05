@@ -1,9 +1,9 @@
-import {GAME_INITIAL, GameOptions} from './initial-options';
+import {GAME_INITIAL, GameOptions} from './data-options';
 import Timer from '../timer/timer';
 
 class GameModel {
   /**
-   * @param {object} questions
+   * @param {Array} questions
    */
   constructor(questions) {
     this.questions = questions;
@@ -64,7 +64,14 @@ class GameModel {
   }
 
   /**
-   * @param {object} newState
+   * @param {number} points
+   */
+  updatePoints(points) {
+    this._updateState({points});
+  }
+
+  /**
+   * @param {Object} newState
    * @private
    */
   _updateState(newState) {

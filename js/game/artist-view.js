@@ -2,11 +2,11 @@ import GameView from './game-view';
 
 export default class ArtistView extends GameView {
   /**
-   * @param {object} questions
+   * @param {Object} question
    */
-  constructor(questions) {
+  constructor(question) {
     super();
-    this._question = questions;
+    this._question = question;
     this._pauseClass = `player-control--pause`;
     this._playClass = `player-control--play`;
     this._currentForm = null;
@@ -18,7 +18,7 @@ export default class ArtistView extends GameView {
       <h2 class="title main-title">${this._question.title}</h2>
       <div class="player-wrapper">
         <div class="player">
-          <audio src="${this._question.audio}" id="audio-0"></audio>
+          <audio src="${this._question.audio}" autoplay id="audio-0"></audio>
           <button class="player-control player-control--pause" data-id="audio-0"></button>
           <div class="player-track">
             <span class="player-status"></span>

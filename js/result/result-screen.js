@@ -1,15 +1,17 @@
-import {GAME_INITIAL, GameOptions} from '../data/initial-options';
+import {GAME_INITIAL, GameOptions} from '../data/data-options';
 import ResultView from './result-view';
 import Application from '../application';
 
 class ResultScreen {
   /**
-   * @param {object} model
+   * @param {Object} model
    */
   constructor(model) {
     this.model = model;
     this._state = this.model.state;
     this._resultScreen = null;
+    this._gameResult = {};
+    this.statistics = [];
   }
 
   get element() {
@@ -19,14 +21,18 @@ class ResultScreen {
     return this._resultScreen.element;
   }
 
+  setStatistics(statistics) {
+    this.statistics = statistics.map((it) => it.points);
+  }
+
   /**
    * @param {Array} dataResult
-   * @param {Number} remainingNotes
-   * @return {Number}
+   * @param {number} remainingNotes
+   * @return {number}
    */
   countPoints(dataResult, remainingNotes) {
     if (!Array.isArray(dataResult)) {
-      throw new Error(`DataResult should be of array`);
+      throw new Error(`DataResult should be of Array`);
     }
     if (typeof remainingNotes !== `number`) {
       throw new TypeError(`RemainingNotes should be of type number`);
@@ -55,9 +61,9 @@ class ResultScreen {
     return points;
   }
 
-  _getGameResult() {
+  setGameResult() {
     const remainingNotes = GameOptions.MAX_NOTES - this._state.notes;
-    return {
+    this._gameResult = {
       points: this.countPoints(this._state.dataResult, remainingNotes),
       remainingNotes,
       remainingTime: this._state.remainingTime
@@ -73,10 +79,13 @@ class ResultScreen {
     };
   }
 
+  updatePoints() {
+    this.setGameResult(this._state);
+    this.model.updatePoints(this._gameResult.points);
+  }
+
   _getResult() {
-    let statistics = [];
-    this._gameResult = this._getGameResult(this._state);
-    const resultText = ResultScreen.outputGameResult(statistics, this._gameResult);
+    const resultText = ResultScreen.outputGameResult(this.statistics, this._gameResult);
     let result;
     if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
       result = {
@@ -107,16 +116,16 @@ class ResultScreen {
   }
 
   /**
-   * @param {array} statistics
-   * @param {object} gameResult
+   * @param {Array} statistics
+   * @param {Object} gameResult
    * @return {string}
    */
   static outputGameResult(statistics, gameResult) {
     if (!Array.isArray(statistics)) {
-      throw new Error(`Statistics should be of array`);
+      throw new Error(`Statistics should be of Array`);
     }
     if (typeof gameResult !== `object` || gameResult === null) {
-      throw new Error(`GameResult should be of type object and not null`);
+      throw new Error(`GameResult should be of type Object and not null`);
     }
     if (!(gameResult.hasOwnProperty(`points`)
       && gameResult.hasOwnProperty(`remainingNotes`)
@@ -131,11 +140,9 @@ class ResultScreen {
     }
 
     const currentPoints = gameResult.points;
-    const newStatistics = [...statistics, currentPoints];
-    newStatistics.sort((a, b) => b - a);
-
-    const place = newStatistics.indexOf(currentPoints) + 1;
-    const countPlayers = newStatistics.length;
+    const sortedStatistics = statistics.sort((a, b) => b - a);
+    const place = sortedStatistics.indexOf(currentPoints) + 1;
+    const countPlayers = sortedStatistics.length;
     const percentagePlayersBelow = Math.round((countPlayers - place) / countPlayers * 100);
     return `Вы заняли ${place} место из ${countPlayers} игроков. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
   }

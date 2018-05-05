@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import Timer from './timer';
 
 describe(`Create the timer for the game`, () => {
-  it(`should get the object`, () => {
+  it(`should get the Object`, () => {
     assert.isObject(new Timer(300));
   });
   it(`should get the timer`, () => {

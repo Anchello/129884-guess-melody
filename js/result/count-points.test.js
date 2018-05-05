@@ -1,10 +1,10 @@
 import {assert} from 'chai';
 import ResultScreen from './result-screen';
-import GameModel from "../data/game-model";
+import GameModel from "../data/data-model";
+
 /**
- * Получение массива данных с одинаковыми результатами
  * @param {Object} answers
- * @param {Number} lengthResult
+ * @param {number} lengthResult
  * @return {Array}
  */
 const getDataResult = (answers, lengthResult) => {
@@ -12,7 +12,7 @@ const getDataResult = (answers, lengthResult) => {
     throw new TypeError(`LengthResult should be of type number`);
   }
   if (typeof answers !== `object`) {
-    throw new TypeError(`Answers should be of type object`);
+    throw new TypeError(`Answers should be of type Object`);
   }
   const dataResult = [];
   for (let i = 0; i < lengthResult; i++) {
@@ -60,12 +60,12 @@ describe(`Count the points`, () => {
     assert.equal(13, resultScreen.countPoints(fastDataResult3, 3));
     assert.equal(8, resultScreen.countPoints(fastDataResult4, 1));
   });
-  it(`should not allow set non array`, () => {
-    assert.throws(() => resultScreen.countPoints(0, 0), /DataResult should be of array/);
-    assert.throws(() => resultScreen.countPoints(null, 0), /DataResult should be of array/);
-    assert.throws(() => resultScreen.countPoints({}, 0), /DataResult should be of array/);
-    assert.throws(() => resultScreen.countPoints(`DataResult`, 0), /DataResult should be of array/);
-    assert.throws(() => resultScreen.countPoints(), /DataResult should be of array/);
+  it(`should not allow set non Array`, () => {
+    assert.throws(() => resultScreen.countPoints(0, 0), /DataResult should be of Array/);
+    assert.throws(() => resultScreen.countPoints(null, 0), /DataResult should be of Array/);
+    assert.throws(() => resultScreen.countPoints({}, 0), /DataResult should be of Array/);
+    assert.throws(() => resultScreen.countPoints(`DataResult`, 0), /DataResult should be of Array/);
+    assert.throws(() => resultScreen.countPoints(), /DataResult should be of Array/);
   });
   it(`should not allow set negative values`, () => {
     assert.throws(() => resultScreen.countPoints(FailedDataResult, -1), /RemainingNotes should not be negative value/);
