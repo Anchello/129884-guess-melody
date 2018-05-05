@@ -37,8 +37,14 @@ export default class Application {
   }
 
   static showResult(model) {
-    const resultScreen = new ResultScreen(model);
-    showScreenElement(resultScreen.element);
+    Loader.saveResults(model.state).
+        then(() => Loader.loadResults()).
+        then((data) => {
+          console.log(data);
+          const resultScreen = new ResultScreen(model, data);
+          showScreenElement(resultScreen.element);
+        }).
+        catch(Application.showError);
   }
 
   static showError(error) {
