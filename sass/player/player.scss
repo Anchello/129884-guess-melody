@@ -24,6 +24,9 @@
     background-position: 0 -52px;
   }
 
+  &:disabled {
+    opacity: .85;
+  }
 }
 
 @keyframes fadein {

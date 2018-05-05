@@ -3,6 +3,9 @@ import ResultView from './result-view';
 import Application from '../application';
 
 class ResultScreen {
+  /**
+   * @param {object} model
+   */
   constructor(model) {
     this.model = model;
     this._state = this.model.state;
@@ -10,15 +13,15 @@ class ResultScreen {
   }
 
   get element() {
-    const result = this.getResult();
+    const result = this._getResult();
     this._resultScreen = new ResultView(result);
     this._resultScreen.onButtonClick = () => Application.showGameScreen();
     return this._resultScreen.element;
   }
+
   /**
-   *  Подсчет набранных очков за текущую игру
-   * @param {Array} dataResult - массив состоит из ответов, каждый ответ содержит информацию об успешном или неуспешном ответе и времени, затраченном на ответ.
-   * @param {Number} remainingNotes - оставшиеся ноты
+   * @param {Array} dataResult
+   * @param {Number} remainingNotes
    * @return {Number}
    */
   countPoints(dataResult, remainingNotes) {
@@ -41,7 +44,6 @@ class ResultScreen {
       const {answer, time} = result;
       if (answer) {
         points += GameOptions.CORRECT_POINT;
-        // correctAnswers++;
         if (time < GameOptions.TIME_LIMIT) {
           points += GameOptions.FAST_POINT;
           this._correctFastAnswers++;
@@ -53,11 +55,7 @@ class ResultScreen {
     return points;
   }
 
-  /**
-   * Получение результата игры в виде объекта содержащего кол-во очков, оставшихся нот и оставшегося времени
-   * @return {{points: number, remainingNotes: number, remainingTime: number}}
-   */
-  getGameResult() {
+  _getGameResult() {
     const remainingNotes = GameOptions.MAX_NOTES - this._state.notes;
     return {
       points: this.countPoints(this._state.dataResult, remainingNotes),
@@ -65,11 +63,8 @@ class ResultScreen {
       remainingTime: this._state.remainingTime
     };
   }
-  /**
-   * Получение результата времени отдельно в минутах и секундах
-   * @return {{mins: number, secs: number}}
-   */
-  getTimeResult() {
+
+  _getTimeResult() {
     const timeSeconds = GAME_INITIAL.remainingTime - this._gameResult.remainingTime;
     const SECS_IN_ONE_MIN = 60;
     return {
@@ -77,13 +72,46 @@ class ResultScreen {
       secs: timeSeconds % SECS_IN_ONE_MIN
     };
   }
+
+  _getResult() {
+    let statistics = [];
+    this._gameResult = this._getGameResult(this._state);
+    const resultText = ResultScreen.outputGameResult(statistics, this._gameResult);
+    let result;
+    if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
+      result = {
+        title: `Какая жалость!`,
+        state: resultText,
+        button: `Попробовать ещё раз`
+      };
+    } else if (this._gameResult.remainingTime === 0) {
+      result = {
+        title: `Увы и ах!`,
+        state: resultText,
+        button: `Попробовать ещё раз`
+      };
+    } else if (this._gameResult.points > 0) {
+      const timeResult = this._getTimeResult();
+      result = {
+        title: `Вы настоящий меломан!`,
+        state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
+        <br>вы набрали ${this._gameResult.points} баллов (${this._correctFastAnswers} быстрых)
+        <br>совершив ${GameOptions.MAX_NOTES - this._gameResult.remainingNotes} ошибки`,
+        comparison: resultText,
+        button: `Сыграть ещё раз`
+      };
+    } else {
+      throw new Error(`Unknown result: ${this._gameResult}`);
+    }
+    return result;
+  }
+
   /**
-   * Вывод результата игрока
-   * @param {array} statistics - результат игр других игроков по кол-ву баллов
-   * @param {object} gameResult - содержит кол-во набранных баллов, кол-во оставшихся нот и кол-во оставшегося времени
+   * @param {array} statistics
+   * @param {object} gameResult
    * @return {string}
    */
-  outputGameResult(statistics, gameResult) {
+  static outputGameResult(statistics, gameResult) {
     if (!Array.isArray(statistics)) {
       throw new Error(`Statistics should be of array`);
     }
@@ -91,8 +119,8 @@ class ResultScreen {
       throw new Error(`GameResult should be of type object and not null`);
     }
     if (!(gameResult.hasOwnProperty(`points`)
-        && gameResult.hasOwnProperty(`remainingNotes`)
-        && gameResult.hasOwnProperty(`remainingTime`))) {
+      && gameResult.hasOwnProperty(`remainingNotes`)
+      && gameResult.hasOwnProperty(`remainingTime`))) {
       throw new Error(`GameResult should has properties 'points', 'remainingNotes' and 'remainingTime'`);
     }
     if (gameResult.remainingTime === 0) {
@@ -110,42 +138,6 @@ class ResultScreen {
     const countPlayers = newStatistics.length;
     const percentagePlayersBelow = Math.round((countPlayers - place) / countPlayers * 100);
     return `Вы заняли ${place} место из ${countPlayers} игроков. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
-  }
-  /**
-   * Получение результата в виде объекта, который содержит данные для вывода на экран
-   * @return {object}
-   */
-  getResult() {
-    let statistics = [];
-    this._gameResult = this.getGameResult(this._state);
-    const resultText = this.outputGameResult(statistics, this._gameResult);
-    let result;
-    if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
-      result = {
-        title: `Какая жалость!`,
-        state: resultText,
-        button: `Попробовать ещё раз`
-      };
-    } else if (this._gameResult.remainingTime === 0) {
-      result = {
-        title: `Увы и ах!`,
-        state: resultText,
-        button: `Попробовать ещё раз`
-      };
-    } else if (this._gameResult.points > 0) {
-      const timeResult = this.getTimeResult();
-      result = {
-        title: `Вы настоящий меломан!`,
-        state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
-        <br>вы набрали ${this._gameResult.points} баллов (${this._correctFastAnswers} быстрых)
-        <br>совершив ${GameOptions.MAX_NOTES - this._gameResult.remainingNotes} ошибки`,
-        comparison: resultText,
-        button: `Сыграть ещё раз`
-      };
-    } else {
-      throw new Error(`Unknown result: ${this._gameResult}`);
-    }
-    return result;
   }
 }
 

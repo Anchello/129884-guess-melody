@@ -1,3 +1,3 @@
 import Application from './application';
 
-Application.showStartScreen();
+Application.start();

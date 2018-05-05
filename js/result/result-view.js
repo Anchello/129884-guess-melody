@@ -2,6 +2,9 @@ import LogoView from '../view-common/logo-view';
 import AbstractView from '../abstract-view';
 
 export default class ResultView extends AbstractView {
+  /**
+   * @param {object} result
+   */
   constructor(result) {
     super();
     this.result = result;
@@ -20,11 +23,12 @@ export default class ResultView extends AbstractView {
     `;
   }
 
-  onButtonClick() {
+  bind() {
+    const buttonReplay = this.element.querySelector(`.main-replay`);
+    buttonReplay.addEventListener(`click`, () => this.onButtonClick());
   }
 
-  bind(element) {
-    const buttonReplay = element.querySelector(`.main-replay`);
-    buttonReplay.addEventListener(`click`, () => this.onButtonClick());
+
+  onButtonClick() {
   }
 }
