@@ -20,7 +20,7 @@ export default class GameView extends AbstractView {
     currentControl.disabled = true;
     this._pauseClass = pauseClass;
     this._playClass = playClass;
-    const method = currentControl.classList.contains(this._pauseClass) ? `_playAudio` : `_pauseAudio`;
+    const method = currentControl.classList.contains(this._pauseClass) ? `_pauseAudio` : `_playAudio`;
     this[method](currentControl, currentAudio);
   }
 
@@ -32,8 +32,8 @@ export default class GameView extends AbstractView {
     this._playPromise = audio.play();
     this._playPromise.then(() => {
       control.disabled = false;
-      control.classList.remove(this._pauseClass);
-      control.classList.add(this._playClass);
+      control.classList.add(this._pauseClass);
+      control.classList.remove(this._playClass);
     })
         .catch(() => {
           audio.pause();
@@ -45,11 +45,11 @@ export default class GameView extends AbstractView {
    * @param {element} audio
    */
   _pauseAudio(control, audio) {
-    this._playPromise.then(() => {
+    audio.play().then(() => {
       audio.pause();
       control.disabled = false;
-      control.classList.add(this._pauseClass);
-      control.classList.remove(this._playClass);
+      control.classList.remove(this._pauseClass);
+      control.classList.add(this._playClass);
     })
         .catch(() => {
           audio.pause();

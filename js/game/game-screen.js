@@ -3,7 +3,7 @@ import GenreView from './genre-view';
 import TimerView from '../timer/timer-view';
 import NotesView from './notes-view';
 import Application from '../application';
-import {QuestionType} from '../data/initial-options';
+import {QuestionType} from '../data/data-options';
 
 class GameScreen {
   /**

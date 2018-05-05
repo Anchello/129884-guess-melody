@@ -1,4 +1,4 @@
-import {GAME_INITIAL, GameOptions} from './initial-options';
+import {GAME_INITIAL, GameOptions} from './data-options';
 import Timer from '../timer/timer';
 
 class GameModel {
@@ -61,6 +61,13 @@ class GameModel {
   updateDataResult(answer, time) {
     const updatedDataResult = this._state.dataResult.concat({answer, time});
     this._updateState({dataResult: updatedDataResult});
+  }
+
+  /**
+   * @param {number} points
+   */
+  updatePoints(points) {
+    this._updateState({points});
   }
 
   /**

@@ -1,8 +1,8 @@
 import {assert} from 'chai';
 import ResultScreen from './result-screen';
-import GameModel from "../data/game-model";
+import GameModel from "../data/data-model";
 
-const STATISTICS = [5, 12, 13, 15, 2];
+const STATISTICS = [5, 12, 13, 15, 2, 14];
 
 const GAME_RESULT = [
   {
@@ -33,7 +33,7 @@ describe(`Get output result`, () => {
   model.init();
   it(`should get the game of result`, () => {
     const i = 2;
-    const t = STATISTICS.length + 1;
+    const t = STATISTICS.length;
     const n = Math.round((t - i) / t * 100);
     assert.equal(`Вы заняли ${i} место из ${t} игроков. Это лучше, чем у ${n}% игроков`, ResultScreen.outputGameResult(STATISTICS, GAME_RESULT[0]));
     assert.equal(`У вас закончились все попытки. <br> Ничего, повезёт в следующий раз!`, ResultScreen.outputGameResult(STATISTICS, GAME_RESULT[1]));

@@ -2,7 +2,7 @@ import {adaptServerData} from '../data/data-adapter';
 
 const SERVER_URL = `https://es.dump.academy/guess-melody`;
 const APP_ID = 22101985;
-const DEFAULT_NAME = `Kek-pek`
+const DEFAULT_NAME = `Kek-pek`;
 
 const checkStatus = (response) => {
   if (response.ok) {

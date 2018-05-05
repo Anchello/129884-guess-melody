@@ -1,4 +1,4 @@
-import {GAME_INITIAL, GameOptions} from '../data/initial-options';
+import {GAME_INITIAL, GameOptions} from '../data/data-options';
 import ResultView from './result-view';
 import Application from '../application';
 
@@ -6,11 +6,12 @@ class ResultScreen {
   /**
    * @param {object} model
    */
-  constructor(model, statistics) {
+  constructor(model) {
     this.model = model;
     this._state = this.model.state;
     this._resultScreen = null;
-    this._statistics = statistics;
+    this._gameResult = {};
+    this.statistics = [];
   }
 
   get element() {
@@ -18,6 +19,10 @@ class ResultScreen {
     this._resultScreen = new ResultView(result);
     this._resultScreen.onButtonClick = () => Application.showGameScreen();
     return this._resultScreen.element;
+  }
+
+  setStatistics(statistics) {
+    this.statistics = statistics.map((it) => it.points);
   }
 
   /**
@@ -56,9 +61,9 @@ class ResultScreen {
     return points;
   }
 
-  _getGameResult() {
+  setGameResult() {
     const remainingNotes = GameOptions.MAX_NOTES - this._state.notes;
-    return {
+    this._gameResult = {
       points: this.countPoints(this._state.dataResult, remainingNotes),
       remainingNotes,
       remainingTime: this._state.remainingTime
@@ -74,9 +79,13 @@ class ResultScreen {
     };
   }
 
+  updatePoints() {
+    this.setGameResult(this._state);
+    this.model.updatePoints(this._gameResult.points);
+  }
+
   _getResult() {
-    this._gameResult = this._getGameResult(this._state);
-    const resultText = ResultScreen.outputGameResult(this._statistics, this._gameResult);
+    const resultText = ResultScreen.outputGameResult(this.statistics, this._gameResult);
     let result;
     if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
       result = {
@@ -92,6 +101,7 @@ class ResultScreen {
       };
     } else if (this._gameResult.points > 0) {
       const timeResult = this._getTimeResult();
+      // this.updatePoints(this._gameResult.points);
       result = {
         title: `Вы настоящий меломан!`,
         state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
@@ -131,11 +141,10 @@ class ResultScreen {
     }
 
     const currentPoints = gameResult.points;
-    const newStatistics = [...statistics, currentPoints];
-    newStatistics.sort((a, b) => b - a);
+    statistics.sort((a, b) => b - a);
 
-    const place = newStatistics.indexOf(currentPoints) + 1;
-    const countPlayers = newStatistics.length;
+    const place = statistics.indexOf(currentPoints) + 1;
+    const countPlayers = statistics.length;
     const percentagePlayersBelow = Math.round((countPlayers - place) / countPlayers * 100);
     return `Вы заняли ${place} место из ${countPlayers} игроков. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
   }

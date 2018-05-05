@@ -10,7 +10,6 @@ export default class GenreView extends GameView {
     this._pauseClass = `player-control--pause`;
     this._playClass = `player-control--play`;
     this._currentForm = null;
-    this._players = null;
   }
 
   get template() {
@@ -23,7 +22,7 @@ export default class GenreView extends GameView {
           <div class="player-wrapper">
             <div class="player">
               <audio src="${it.audio}" id="audio-${index}"></audio>
-              <button class="player-control player-control--pause" type="button" data-id="audio-${index}"></button>
+              <button class="player-control player-control--play" type="button" data-id="audio-${index}"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -51,7 +50,7 @@ export default class GenreView extends GameView {
         buttonSubmitAnswer.disabled = !buttonsAnswerActive.length;
       } else if (target.classList.contains(`player-control`)) {
         const currentAudio = this._buttonsAnswerWrapper.querySelector(`#${target.dataset.id}`);
-        const activeControls = Array.from(this._buttonsAnswerWrapper.querySelectorAll(`.${this._playClass}`));
+        const activeControls = Array.from(this._buttonsAnswerWrapper.querySelectorAll(`.${this._pauseClass}`));
         evt.preventDefault();
         this._pausePlayingAudio(activeControls, target);
         this._onPlayerControlClick(target, currentAudio, this._pauseClass, this._playClass);

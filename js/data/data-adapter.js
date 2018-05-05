@@ -1,4 +1,4 @@
-import {QuestionType} from './initial-options';
+import {QuestionType} from './data-options';
 
 const preprocessGenreLevel = (level, title) => {
   const answers = level.answers.map((it) => ({

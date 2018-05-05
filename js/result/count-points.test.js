@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import ResultScreen from './result-screen';
-import GameModel from "../data/game-model";
+import GameModel from "../data/data-model";
 /**
  * Получение массива данных с одинаковыми результатами
  * @param {Object} answers
