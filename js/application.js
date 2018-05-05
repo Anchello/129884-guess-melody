@@ -23,6 +23,7 @@ export default class Application {
         then(Application.showStartScreen).
         catch(Application.showError);
   }
+
   static showStartScreen(data) {
     questions = data;
     const start = new StartScreen();

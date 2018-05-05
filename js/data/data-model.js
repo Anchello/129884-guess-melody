@@ -3,7 +3,7 @@ import Timer from '../timer/timer';
 
 class GameModel {
   /**
-   * @param {object} questions
+   * @param {Array} questions
    */
   constructor(questions) {
     this.questions = questions;
@@ -71,7 +71,7 @@ class GameModel {
   }
 
   /**
-   * @param {object} newState
+   * @param {Object} newState
    * @private
    */
   _updateState(newState) {

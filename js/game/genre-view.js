@@ -2,11 +2,11 @@ import GameView from './game-view';
 
 export default class GenreView extends GameView {
   /**
-   * @param {object} questions
+   * @param {Object} question
    */
-  constructor(questions) {
+  constructor(question) {
     super();
-    this._question = questions;
+    this._question = question;
     this._pauseClass = `player-control--pause`;
     this._playClass = `player-control--play`;
     this._currentForm = null;

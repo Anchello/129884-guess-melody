@@ -11,7 +11,7 @@ const drawNote = (countNotes) => {
 
 export default class NotesView extends AbstractView {
   /**
-   * @param {object} state
+   * @param {Object} state
    */
   constructor(state) {
     super();

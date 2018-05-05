@@ -7,7 +7,7 @@ import {QuestionType} from '../data/data-options';
 
 class GameScreen {
   /**
-   * @param {object} model
+   * @param {Object} model
    */
   constructor(model) {
     this.model = model;
@@ -63,16 +63,15 @@ class GameScreen {
   }
 
   /**
-   * @param {array} userAnswers
+   * @param {Array} userAnswers
    */
   _answerHandler(userAnswers) {
+    const isCorrectAnswers = this._compareArrays(this.model.getCurrentRightAnswers(), userAnswers);
     this._stopTimerGame();
     this.gameContent.reset();
-    const isCorrectAnswers = this._compareArrays(this.model.getCurrentRightAnswers(), userAnswers);
     this.model.updateLevel();
-    const answerTime = this._getTimeAnswer(this.model.state.remainingTime);
     this._remainingTimes.push(this.model.state.remainingTime);
-    this.model.updateDataResult(isCorrectAnswers, answerTime);
+    this.model.updateDataResult(isCorrectAnswers, this._getTimeAnswer(this.model.state.remainingTime));
     if (!isCorrectAnswers) {
       this.model.updateNotes();
       this._updateNotesView();
@@ -101,6 +100,7 @@ class GameScreen {
     this.gameScreen.replaceChild(updatedContent.element, this.gameContent.element);
     this.gameContent = updatedContent;
   }
+
   /**
    * @param {number} remainingTime
    * @return {number}
@@ -108,9 +108,10 @@ class GameScreen {
   _getTimeAnswer(remainingTime) {
     return this._remainingTimes[this._remainingTimes.length - 1] - remainingTime;
   }
+
   /**
-   * @param {array} array1
-   * @param {array} array2
+   * @param {Array} array1
+   * @param {Array} array2
    * @return {boolean}
    */
   _compareArrays(array1, array2) {

@@ -1,5 +1,10 @@
 import {QuestionType} from './data-options';
 
+/**
+ * @param {Object} level
+ * @param {string} title
+ * @return {Object}
+ */
 const preprocessGenreLevel = (level, title) => {
   const answers = level.answers.map((it) => ({
     audio: it.src,
@@ -12,6 +17,11 @@ const preprocessGenreLevel = (level, title) => {
   };
 };
 
+/**
+ * @param {Object} level
+ * @param {string} title
+ * @return {Object}
+ */
 const preprocessArtistLevel = (level, title) => {
   const audio = level.src;
   const answers = level.answers.map((it) => ({
@@ -31,6 +41,10 @@ const preprocessArtistLevel = (level, title) => {
   };
 };
 
+/**
+ * @param {Array} data
+ * @return {Array}
+ */
 export const adaptServerData = (data) => {
   return data.map((level) => {
     const title = level.question;

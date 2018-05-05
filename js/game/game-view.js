@@ -17,11 +17,11 @@ export default class GameView extends AbstractView {
   _onPlayerControlClick(control, audio, pauseClass, playClass) {
     const currentControl = control;
     const currentAudio = audio;
-    currentControl.disabled = true;
     this._pauseClass = pauseClass;
     this._playClass = playClass;
     const method = currentControl.classList.contains(this._pauseClass) ? `_pauseAudio` : `_playAudio`;
     this[method](currentControl, currentAudio);
+    currentControl.disabled = true;
   }
 
   /**
@@ -29,8 +29,8 @@ export default class GameView extends AbstractView {
    * @param {element} audio
    */
   _playAudio(control, audio) {
-    this._playPromise = audio.play();
-    this._playPromise.then(() => {
+    const playPromise = audio.play();
+    playPromise.then(() => {
       control.disabled = false;
       control.classList.add(this._pauseClass);
       control.classList.remove(this._playClass);

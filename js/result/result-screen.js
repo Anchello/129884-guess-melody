@@ -4,7 +4,7 @@ import Application from '../application';
 
 class ResultScreen {
   /**
-   * @param {object} model
+   * @param {Object} model
    */
   constructor(model) {
     this.model = model;
@@ -27,12 +27,12 @@ class ResultScreen {
 
   /**
    * @param {Array} dataResult
-   * @param {Number} remainingNotes
-   * @return {Number}
+   * @param {number} remainingNotes
+   * @return {number}
    */
   countPoints(dataResult, remainingNotes) {
     if (!Array.isArray(dataResult)) {
-      throw new Error(`DataResult should be of array`);
+      throw new Error(`DataResult should be of Array`);
     }
     if (typeof remainingNotes !== `number`) {
       throw new TypeError(`RemainingNotes should be of type number`);
@@ -101,7 +101,6 @@ class ResultScreen {
       };
     } else if (this._gameResult.points > 0) {
       const timeResult = this._getTimeResult();
-      // this.updatePoints(this._gameResult.points);
       result = {
         title: `Вы настоящий меломан!`,
         state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
@@ -117,16 +116,16 @@ class ResultScreen {
   }
 
   /**
-   * @param {array} statistics
-   * @param {object} gameResult
+   * @param {Array} statistics
+   * @param {Object} gameResult
    * @return {string}
    */
   static outputGameResult(statistics, gameResult) {
     if (!Array.isArray(statistics)) {
-      throw new Error(`Statistics should be of array`);
+      throw new Error(`Statistics should be of Array`);
     }
     if (typeof gameResult !== `object` || gameResult === null) {
-      throw new Error(`GameResult should be of type object and not null`);
+      throw new Error(`GameResult should be of type Object and not null`);
     }
     if (!(gameResult.hasOwnProperty(`points`)
       && gameResult.hasOwnProperty(`remainingNotes`)
@@ -141,10 +140,9 @@ class ResultScreen {
     }
 
     const currentPoints = gameResult.points;
-    statistics.sort((a, b) => b - a);
-
-    const place = statistics.indexOf(currentPoints) + 1;
-    const countPlayers = statistics.length;
+    const sortedStatistics = statistics.sort((a, b) => b - a);
+    const place = sortedStatistics.indexOf(currentPoints) + 1;
+    const countPlayers = sortedStatistics.length;
     const percentagePlayersBelow = Math.round((countPlayers - place) / countPlayers * 100);
     return `Вы заняли ${place} место из ${countPlayers} игроков. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
   }
