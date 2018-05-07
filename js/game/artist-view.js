@@ -10,6 +10,7 @@ export default class ArtistView extends GameView {
     this._pauseClass = `player-control--pause`;
     this._playClass = `player-control--play`;
     this._currentForm = null;
+    this._playerWrapper = null;
   }
 
   get template() {
@@ -41,22 +42,10 @@ export default class ArtistView extends GameView {
   }
 
   bind() {
-    const playerWrapper = this.element.querySelector(`.player-wrapper`);
+    this._playerWrapper = this.element.querySelector(`.player-wrapper`);
     this._currentForm = this.element.querySelector(`form`);
-    this._currentForm.addEventListener(`change`, (evt) => {
-      const userAnswer = evt.target;
-      if (userAnswer.classList.contains(`main-answer-r`)) {
-        this.onAnswer([Number(userAnswer.value)]);
-      }
-    });
-    playerWrapper.addEventListener(`click`, (evt) => {
-      const target = evt.target;
-      if (target.classList.contains(`player-control`)) {
-        evt.preventDefault();
-        const currentAudio = playerWrapper.querySelector(`#${target.dataset.id}`);
-        this._onPlayerControlClick(target, currentAudio, this._pauseClass, this._playClass);
-      }
-    });
+    this._currentForm.addEventListener(`change`, this._onFormChange.bind(this));
+    this._playerWrapper.addEventListener(`click`, this._onPlayerClick.bind(this));
   }
 
   reset() {
@@ -64,5 +53,21 @@ export default class ArtistView extends GameView {
   }
 
   onAnswer() {
+  }
+
+  _onFormChange(evt) {
+    const userAnswer = evt.target;
+    if (userAnswer.classList.contains(`main-answer-r`)) {
+      this.onAnswer([Number(userAnswer.value)]);
+    }
+  }
+
+  _onPlayerClick(evt) {
+    const target = evt.target;
+    if (target.classList.contains(`player-control`)) {
+      evt.preventDefault();
+      const currentAudio = this._playerWrapper.querySelector(`#${target.dataset.id}`);
+      this._onPlayerControlClick(target, currentAudio, this._pauseClass, this._playClass);
+    }
   }
 }

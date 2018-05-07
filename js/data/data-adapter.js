@@ -48,17 +48,13 @@ const preprocessArtistLevel = (level, title) => {
 export const adaptServerData = (data) => {
   return data.map((level) => {
     const title = level.question;
-    let adaptLevel;
     switch (level.type) {
       case QuestionType.ARTIST:
-        adaptLevel = preprocessArtistLevel(level, title);
-        break;
+        return preprocessArtistLevel(level, title);
       case QuestionType.GENRE:
-        adaptLevel = preprocessGenreLevel(level, title);
-        break;
+        return preprocessGenreLevel(level, title);
       default:
         throw new Error(`Unknown result: ${level.type}`);
     }
-    return adaptLevel;
   });
 };

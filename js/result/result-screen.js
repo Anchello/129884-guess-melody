@@ -2,6 +2,48 @@ import {GAME_INITIAL, GameOptions} from '../data/data-options';
 import ResultView from './result-view';
 import Application from '../application';
 
+const DeclensionNumbers = {
+  ONE: 1,
+  FIVE: 5,
+  TEN: 10,
+  TWENTY: 20
+};
+
+const DeclensionWords = {
+  MINS: [`минуту`, `минуты`, `минут`],
+  SECS: [`секунду`, `секунды`, `секунд`],
+  POINTS: [`балл`, `балла`, `баллов`],
+  FAST_ANSWERS: [`быстрый`, `быстрых`, `быстрых`],
+  ERRORS: [`ошибку`, `ошибки`, `ошибок`],
+  PLAYERS: [`игрока`, `игроков`, `игроков`]
+};
+
+const NumberWords = {
+  ONE: 0,
+  FEW: 1,
+  MORE: 2
+};
+
+/**
+ * @param {number} number
+ * @param {Array} words
+ * @return {string}
+ */
+const getDeclensionWords = (number, words) => {
+  const isNumberMoreTwenty = number > DeclensionNumbers.TWENTY;
+  const isNumberRemainderTen = number % DeclensionNumbers.TEN;
+  const isFewNumbers = number > DeclensionNumbers.ONE && number < DeclensionNumbers.FIVE ||
+    isNumberRemainderTen > DeclensionNumbers.ONE && isNumberRemainderTen < DeclensionNumbers.FIVE && isNumberMoreTwenty;
+
+  if (number === DeclensionNumbers.ONE || isNumberMoreTwenty && isNumberRemainderTen === DeclensionNumbers.ONE) {
+    return `${number} ${words[NumberWords.ONE]}`;
+  } else if (isFewNumbers) {
+    return `${number} ${words[NumberWords.FEW]}`;
+  } else {
+    return `${number} ${words[NumberWords.MORE]}`;
+  }
+};
+
 class ResultScreen {
   /**
    * @param {Object} model
@@ -86,33 +128,32 @@ class ResultScreen {
 
   _getResult() {
     const resultText = ResultScreen.outputGameResult(this.statistics, this._gameResult);
-    let result;
     if (this._gameResult.remainingNotes === 0 || this._gameResult.points < 0) {
-      result = {
+      return {
         title: `Какая жалость!`,
         state: resultText,
         button: `Попробовать ещё раз`
       };
     } else if (this._gameResult.remainingTime === 0) {
-      result = {
+      return {
         title: `Увы и ах!`,
         state: resultText,
         button: `Попробовать ещё раз`
       };
     } else if (this._gameResult.points > 0) {
       const timeResult = this._getTimeResult();
-      result = {
+      const gameErrors = GameOptions.MAX_NOTES - this._gameResult.remainingNotes;
+      return {
         title: `Вы настоящий меломан!`,
-        state: `За ${timeResult.mins} минуты и ${timeResult.secs} секунд
-        <br>вы набрали ${this._gameResult.points} баллов (${this._correctFastAnswers} быстрых)
-        <br>совершив ${GameOptions.MAX_NOTES - this._gameResult.remainingNotes} ошибки`,
+        state: `За ${getDeclensionWords(timeResult.mins, DeclensionWords.MINS)} и ${getDeclensionWords(timeResult.secs, DeclensionWords.SECS)}
+        <br>вы набрали ${getDeclensionWords(this._gameResult.points, DeclensionWords.POINTS)} (${getDeclensionWords(this._correctFastAnswers, DeclensionWords.FAST_ANSWERS)})
+        <br>совершив  ${getDeclensionWords(gameErrors, DeclensionWords.ERRORS)}`,
         comparison: resultText,
         button: `Сыграть ещё раз`
       };
     } else {
       throw new Error(`Unknown result: ${this._gameResult}`);
     }
-    return result;
   }
 
   /**
@@ -144,7 +185,7 @@ class ResultScreen {
     const place = sortedStatistics.indexOf(currentPoints) + 1;
     const countPlayers = sortedStatistics.length;
     const percentagePlayersBelow = Math.round((countPlayers - place) / countPlayers * 100);
-    return `Вы заняли ${place} место из ${countPlayers} игроков. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
+    return `Вы заняли ${place} место из ${getDeclensionWords(countPlayers, DeclensionWords.PLAYERS)}. Это лучше, чем у ${percentagePlayersBelow}% игроков`;
   }
 }
 
